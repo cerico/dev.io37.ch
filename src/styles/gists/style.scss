@@ -6,6 +6,10 @@ body {
   margin: 8px;
 }
 
+li {
+  list-style: lower-roman;
+}
+
 .entry {
   text-align: justify;
   display: flex;
