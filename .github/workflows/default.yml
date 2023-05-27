@@ -33,3 +33,16 @@ jobs:
         run: gh release create ${{ steps.changelog.outputs.tag  }} --notes-file notes.text
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build
+        run: make build
+
+      - name: Rsync
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -a
+          path: dist/
+          remote_path: "/var/www/html/dev.io37.ch"
+          remote_host: dev.io37.ch
+          remote_user: deploy
+          remote_key: ${{ secrets.DEPLOY_KEY }}
