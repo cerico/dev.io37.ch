@@ -2,6 +2,8 @@
   "[css]" : {
     "editor.defaultFormatter" : "stylelint.vscode-stylelint"
   },
+  "editor.wordWrapColumn": 120,
+  "editor.wordWrap": "bounded",
   "javascript.updateImportsOnFileMove.enabled" : "always",
   "editor.accessibilitySupport" : "off",
   "bracketPairColorizer.depreciation-notice" : false,
