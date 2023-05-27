@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/cerico/dev.io37.ch/compare/v0.2.0...v0.2.1) (2023-05-27)
+
+
+### Bug Fixes
+
+* install packages before building in gh action ([af5810a](https://github.com/cerico/dev.io37.ch/commit/af5810a788f2211ae39838024017af143d76f005))
+
+
+
 # [0.2.0](https://github.com/cerico/dev.io37.ch/compare/v0.1.2...v0.2.0) (2023-05-27)
 
 
