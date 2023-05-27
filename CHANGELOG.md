@@ -1,3 +1,12 @@
+## [0.1.2](https://github.com/cerico/dev.io37.ch/compare/v0.1.1...v0.1.2) (2023-05-27)
+
+
+### Bug Fixes
+
+* update conventional changelog action ([9135cc0](https://github.com/cerico/dev.io37.ch/commit/9135cc0cde4bae1423e8f18195169f30eebef2db))
+
+
+
 ## [0.1.1](https://github.com/cerico/dev.io37.ch/compare/v0.1.0...v0.1.1) (2023-05-27)
 
 
