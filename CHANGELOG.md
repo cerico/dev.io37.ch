@@ -1,3 +1,12 @@
+# [0.2.0](https://github.com/cerico/dev.io37.ch/compare/v0.1.2...v0.2.0) (2023-05-27)
+
+
+### Features
+
+* publish to io37 ([2609bc9](https://github.com/cerico/dev.io37.ch/commit/2609bc97def5e5b2f18fd82691b58d8089815535))
+
+
+
 ## [0.1.2](https://github.com/cerico/dev.io37.ch/compare/v0.1.1...v0.1.2) (2023-05-27)
 
 
