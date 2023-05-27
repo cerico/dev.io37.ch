@@ -1,0 +1,40 @@
+---
+title: Order-agnostic symbolic links
+author: ''
+publishDate: Sat May 27 2023
+displayDate: 27 May
+cover: https://i.ibb.co/swkd4P2/ccc.jpg
+description: Order-agnostic symbolic links
+tags:
+  - shell
+---
+
+## Order-agnostic symbolic links
+
+I don't use symbolic links a whole bunch, but when I do use them I always forget the order of arguments in the `ln` command. So I wrote a function that allows you to create a symbolic link in any order so I never have to think about it again.
+
+
+```bash
+isym () { # Make symbolic link in any order # ➜ isym cats dogs
+	[[ -e $1 ]] && ln -s $1 $2 || ln -s $2 $1
+}
+```
+
+Here's a breakdown of what happens within this function:
+
+  *  **[[ -e $1 ]]**: Initially, the function checks whether $1, the first parameter, is a valid file or directory (-e). This safety check prevents creating symbolic links to non-existent files or directories.
+
+  * **&& ln -s $1 $2**: If $1 is indeed a file or directory, the function creates a symbolic link to $1 named $2.
+
+  * **|| ln -s $2 $1**: If the first condition fails (i.e., $1 doesn't exist), the function attempts to create a symbolic link to $2, named $1.
+
+## Usage
+
+```bash
+➜ isym <file> <link>
+➜ isym <link> <file>
+➜ isym /etc/asda.conf ~/asda.conf
+➜ isym ~/asda.conf /etc/asda.conf
+```
+
+Now this can be used in any order without worrying about the order of the arguments.
