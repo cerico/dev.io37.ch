@@ -1,0 +1,40 @@
+// @use 'debug';
+
+body {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: currentColor;
+}
+
+li {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+}
+
+.page-wrapper {
+  max-width: 125rem;
+  margin: 0 auto;
+  background: inherit;
+}
+
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+pre {
+  padding: 1rem;
+  border-radius: 0.3rem;
+  line-height: 1.65;
+}
+

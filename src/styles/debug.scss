@@ -1,0 +1,62 @@
+body {
+  background: white !important;
+  color: black !important;
+}
+
+main, article, body, section, header, .page-wrapper, div, p {
+  outline: 3px solid! important;
+}
+
+.page-wrapper {
+  outline-color: rgb(220,220,220) !important
+}
+
+main {
+  outline-color: rgb(255, 192, 192) !important;
+}
+
+article {
+ outline-color: rgba(255, 96, 0) !important;
+}
+
+section {
+  outline-color: rgb(0, 255, 102) !important;
+}
+
+header {
+  outline-color: rgba(128, 0, 255) !important;
+}
+
+p {
+  outline-color: #fcfcac !important;
+}
+
+span {
+  outline-color: #FF757D !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  outline-color: #ff75f1 !important;
+}
+
+div {
+  background: rgba(0, 128, 255, 0.1) !important;
+  outline-color: rgba(0, 128, 255, 1) !important;
+}
+
+div > div {
+  background: rgba(0, 128, 255, 0.15) !important;
+}
+
+div > div > div {
+  background: rgba(0, 128, 255, 0.2) !important;
+}
+
+div > div > div > div {
+  background: rgba(0, 128, 255, 0.25) !important;
+}
+
+div > div > div > div > div{
+  background: rgba(0, 128, 255, 0.3) !important;
+}
+
