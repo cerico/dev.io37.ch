@@ -1,3 +1,12 @@
+## [0.2.4](https://github.com/cerico/dev.io37.ch/compare/v0.2.3...v0.2.4) (2023-05-28)
+
+
+### Bug Fixes
+
+* add published true ([60a73be](https://github.com/cerico/dev.io37.ch/commit/60a73be74306c84f89eebc0db910bb549951b290))
+
+
+
 ## [0.2.3](https://github.com/cerico/dev.io37.ch/compare/v0.2.2...v0.2.3) (2023-05-28)
 
 
