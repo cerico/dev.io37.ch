@@ -1,3 +1,12 @@
+## [0.2.16](https://github.com/cerico/dev.io37.ch/compare/v0.2.15...v0.2.16) (2023-05-28)
+
+
+### Bug Fixes
+
+* conditional release ([952c195](https://github.com/cerico/dev.io37.ch/commit/952c1956633eb072f36866c487dbc7d283c2f921))
+
+
+
 ## [0.2.15](https://github.com/cerico/dev.io37.ch/compare/v0.2.14...v0.2.15) (2023-05-28)
 
 
