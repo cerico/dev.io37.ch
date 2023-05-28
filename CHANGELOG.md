@@ -1,3 +1,12 @@
+## [0.2.9](https://github.com/cerico/dev.io37.ch/compare/v0.2.8...v0.2.9) (2023-05-28)
+
+
+### Bug Fixes
+
+* test for second dev ([c860458](https://github.com/cerico/dev.io37.ch/commit/c860458ca850883eb206be076263e0bae64a28bb))
+
+
+
 ## [0.2.8](https://github.com/cerico/dev.io37.ch/compare/v0.2.7...v0.2.8) (2023-05-28)
 
 
