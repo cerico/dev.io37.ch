@@ -1,3 +1,12 @@
+## [0.2.10](https://github.com/cerico/dev.io37.ch/compare/v0.2.9...v0.2.10) (2023-05-28)
+
+
+### Bug Fixes
+
+* remove extra blog post ([134871c](https://github.com/cerico/dev.io37.ch/commit/134871c2b916fd43835d6177e1d262b5670eccd0))
+
+
+
 ## [0.2.9](https://github.com/cerico/dev.io37.ch/compare/v0.2.8...v0.2.9) (2023-05-28)
 
 
