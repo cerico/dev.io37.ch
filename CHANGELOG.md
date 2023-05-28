@@ -1,3 +1,12 @@
+## [0.2.3](https://github.com/cerico/dev.io37.ch/compare/v0.2.2...v0.2.3) (2023-05-28)
+
+
+### Bug Fixes
+
+* dont use conventional commits here ([7b672da](https://github.com/cerico/dev.io37.ch/commit/7b672dab59bbeea08f12b778680891ef64e4db91))
+
+
+
 ## [0.2.2](https://github.com/cerico/dev.io37.ch/compare/v0.2.1...v0.2.2) (2023-05-28)
 
 
