@@ -1,3 +1,12 @@
+## [0.2.6](https://github.com/cerico/dev.io37.ch/compare/v0.2.5...v0.2.6) (2023-05-28)
+
+
+### Bug Fixes
+
+* change spacing ([2aa950d](https://github.com/cerico/dev.io37.ch/commit/2aa950d7cb4877577cb851db814c5f1e35fd7eea))
+
+
+
 ## [0.2.5](https://github.com/cerico/dev.io37.ch/compare/v0.2.4...v0.2.5) (2023-05-28)
 
 
