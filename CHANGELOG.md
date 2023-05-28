@@ -1,3 +1,12 @@
+## [0.2.7](https://github.com/cerico/dev.io37.ch/compare/v0.2.6...v0.2.7) (2023-05-28)
+
+
+### Bug Fixes
+
+* change spacing for goats ([74f15aa](https://github.com/cerico/dev.io37.ch/commit/74f15aa754c1d1e61e81c1ce74c2336483922ef4))
+
+
+
 ## [0.2.6](https://github.com/cerico/dev.io37.ch/compare/v0.2.5...v0.2.6) (2023-05-28)
 
 
