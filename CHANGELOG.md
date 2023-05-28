@@ -1,3 +1,12 @@
+## [0.2.14](https://github.com/cerico/dev.io37.ch/compare/v0.2.13...v0.2.14) (2023-05-28)
+
+
+### Bug Fixes
+
+* just one article ([0ea80f1](https://github.com/cerico/dev.io37.ch/commit/0ea80f17c144b7556a17637230ad5f1d00b855d9))
+
+
+
 ## [0.2.13](https://github.com/cerico/dev.io37.ch/compare/v0.2.12...v0.2.13) (2023-05-28)
 
 
