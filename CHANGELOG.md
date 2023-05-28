@@ -1,3 +1,14 @@
+## [0.2.2](https://github.com/cerico/dev.io37.ch/compare/v0.2.1...v0.2.2) (2023-05-28)
+
+
+### Bug Fixes
+
+* add gh action for devto ([9cf73e8](https://github.com/cerico/dev.io37.ch/commit/9cf73e83f3d930bc1315cecd7d930f5f961c3dd5))
+* correct path to docs ([da1315e](https://github.com/cerico/dev.io37.ch/commit/da1315eb69be0fdc205e8c458727e373b29f2b25))
+* remove comment creation section in gh action ([35b40ee](https://github.com/cerico/dev.io37.ch/commit/35b40ee4a12bcc3097164d2a4540c50bf0fb53ef))
+
+
+
 ## [0.2.1](https://github.com/cerico/dev.io37.ch/compare/v0.2.0...v0.2.1) (2023-05-27)
 
 
