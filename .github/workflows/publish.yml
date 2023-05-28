@@ -11,6 +11,8 @@
 # for more information about GitHub secrets.
 
 name: publish
+permissions:
+  contents: write
 on:
   push:
     branches: [main]
