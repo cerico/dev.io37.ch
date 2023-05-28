@@ -1,3 +1,12 @@
+## [0.2.12](https://github.com/cerico/dev.io37.ch/compare/v0.2.11...v0.2.12) (2023-05-28)
+
+
+### Bug Fixes
+
+* add extra blog post ii ([e2915d5](https://github.com/cerico/dev.io37.ch/commit/e2915d5d9e2f5e489e80a2d72dc57843d30c760d))
+
+
+
 ## [0.2.11](https://github.com/cerico/dev.io37.ch/compare/v0.2.10...v0.2.11) (2023-05-28)
 
 
