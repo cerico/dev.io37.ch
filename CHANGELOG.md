@@ -1,3 +1,12 @@
+## [0.2.15](https://github.com/cerico/dev.io37.ch/compare/v0.2.14...v0.2.15) (2023-05-28)
+
+
+### Bug Fixes
+
+* pass title as arg ([21347be](https://github.com/cerico/dev.io37.ch/commit/21347be39846002eb8df4b13b765565088a5b73a))
+
+
+
 ## [0.2.14](https://github.com/cerico/dev.io37.ch/compare/v0.2.13...v0.2.14) (2023-05-28)
 
 
