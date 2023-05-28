@@ -1,3 +1,13 @@
+## [0.2.8](https://github.com/cerico/dev.io37.ch/compare/v0.2.7...v0.2.8) (2023-05-28)
+
+
+### Bug Fixes
+
+* change spacing for inks ([a96de1e](https://github.com/cerico/dev.io37.ch/commit/a96de1ec60f2473364ec6500096f5c76543ea8d5))
+* change spacing for inks ii ([b037ad4](https://github.com/cerico/dev.io37.ch/commit/b037ad435fba96c4aab2403ad8f9109cf87e90e0))
+
+
+
 ## [0.2.7](https://github.com/cerico/dev.io37.ch/compare/v0.2.6...v0.2.7) (2023-05-28)
 
 
