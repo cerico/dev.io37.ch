@@ -1,0 +1,85 @@
+---
+title: Upsearching directory tree
+author: ''
+publishDate: Sun May 28 2023
+displayDate: 28 May
+cover: https://i.ibb.co/swkd4P2/ccc.jpg
+description: Upsearching directory tree
+tags:
+  - bluey
+  - yellow
+---
+
+## Upsearching directory tree
+
+Sometimes I want to be able to find a particular file in a directory tree. I wrote a shell function called upsearch that is used to search for a file or directory from the current working directory upwards to root ("/") in the directory tree. This function can be handy in scenarios where you are trying to find a file or directory that exists at some level up in your directory structure, but you're not sure exactly where.
+
+
+```bash
+upsearch () {
+	slashes=${PWD//[^\/]/}
+	directory="$PWD"
+	for ((n=${#slashes}; n>0; --n )) do
+		test -e "$directory/$1" && echo "$directory" && return
+		directory="$directory/.."
+	done
+}
+```
+
+Here's how the function works:
+
+  * **`slashes=${PWD //[^\/]/}`**: This line is counting the number of slash (**`/`**) characters in the current working directory path (**`$PWD`**) by removing all non-slash characters. The result is stored in the slashes variable. This is used to determine the maximum depth to search upwards in the directory tree.
+
+  * **`directory="$PWD"`**: This line sets the directory variable to the current working directory.
+
+  * Inside the for loop, **`test -e "$directory/$1"`** checks if the file or directory specified as the argument to the upsearch function (**`$1`**) exists in the current directory.
+
+  * If the file or directory exists (**`test -e returns true`**), it prints the directory path and then exits the function (**`return`**).
+
+  * If the file or directory does not exist, the directory variable is updated to point one directory higher (**`$directory/..`**). This moves the search up one level in the directory structure.
+
+  * The loop repeats until it finds the file or directory, or it has searched up to the root directory.
+
+## Usage
+
+```bash
+➜ upsearch .git
+➜ upsearch Makefile
+```
+
+This can now be used by other functions:
+
+## Examples
+
+### cdrepo
+
+```bash
+cdrepo () {
+	cd $(upsearch .git)
+}
+```
+
+If we're located somewhere inside a git repo then we can quickly jump to the root of the repo
+
+### m
+
+```bash
+m () {
+	mf=$(upsearch Makefile)
+	if [[ ${#mf} -gt 0 ]]
+	then
+		cd $mf
+		make $1
+	else
+		echo No Makefile found. Nothing to do
+	fi
+}
+```
+
+Here we can run make from anywhere, and it will upsearch for the nearest Makefile and run it with the argument passed to the function. If no Makefile is found while traversing up the directory tree, it will print a message and do nothing.
+
+## Usage
+
+```bash
+➜ m help
+```
