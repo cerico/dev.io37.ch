@@ -1,3 +1,12 @@
+## [0.2.5](https://github.com/cerico/dev.io37.ch/compare/v0.2.4...v0.2.5) (2023-05-28)
+
+
+### Bug Fixes
+
+* add write permission ([5b2b467](https://github.com/cerico/dev.io37.ch/commit/5b2b467da0f13f28fb3c40cec93a981d8e15a557))
+
+
+
 ## [0.2.4](https://github.com/cerico/dev.io37.ch/compare/v0.2.3...v0.2.4) (2023-05-28)
 
 
