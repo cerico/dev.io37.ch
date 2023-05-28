@@ -30,7 +30,8 @@ jobs:
         run: echo "${{ steps.changelog.outputs.clean_changelog }}" > notes.text
 
       - name: Create Release
-        run: gh release create ${{ steps.changelog.outputs.tag  }} --notes-file notes.text
+        run: gh release create ${{ steps.changelog.outputs.tag }} --notes-file notes.text
+        if: ${{ steps.changelog.outputs.tag != '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
