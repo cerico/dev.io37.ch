@@ -23,7 +23,7 @@ isym () { # Make symbolic link in any order # ➜ isym cats dogs
 
 Here's a breakdown of what happens within this function:
 
-  *  **[[ -e $1 ]]**: Initially, the function checks whether $1, the first parameter, is a valid file or directory (-e). This safety check prevents creating symbolic links to non-existent files or directories.
+  * **[[ -e $1 ]]**: Initially, the function checks whether $1, the first parameter, is a valid file or directory (-e). This safety check prevents creating symbolic links to non-existent files or directories.
 
   * **&& ln -s $1 $2**: If $1 is indeed a file or directory, the function creates a symbolic link to $1 named $2.
 
