@@ -44,15 +44,3 @@ jobs:
         conventional_commits: true
         # (Optional) Do not make actual changes on dev.to if it's a pull request.
         dry_run: ${{ github.event_name == 'pull_request' }}
-
-    # (Optional) Add comment with dev.to changes if it's a pull request.
-    - uses: actions-ecosystem/action-create-comment@v1
-      if: ${{ github.event_name == 'pull_request' }}
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        body: |
-          Changes result:
-          ```
-          ${{ steps.publish_devto.outputs.result_summary }}
-          ```
-
