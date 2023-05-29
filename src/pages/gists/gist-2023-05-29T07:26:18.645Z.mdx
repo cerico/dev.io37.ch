@@ -1,0 +1,124 @@
+---
+title: Finding most recently updated projects with the 'recent' function
+author: ''
+published: true
+publishDate: Mon May 29 2023
+displayDate: 29 May
+cover: https://i.ibb.co/swkd4P2/ccc.jpg
+description: Finding most recently updated projects with the 'recent' function
+tags:
+  - shell
+---
+
+## Finding most recently updated projects with the 'recent' function
+
+The purpose of this `recent` function is to find and print the most recently updated directories containing a specific file or folder, relative to the current directory. Lets say for example we wanted to find the 6 most recently updated directories containing a `Makefile`, showing the date of the last updated file in each directory (ie not the Makefile itself)
+
+## Usage
+
+```bash
+➜ recent 6 Makefile
+Finding 6 most recent directories containing Makefile
+---
+2023-05-28 venlo
+2023-05-08 observatory
+2023-05-08 lighthouse-ii
+2023-05-08 docker/getting-started/vaxjo
+2023-05-08 contabo
+2023-05-07 research/seacroft
+
+19 total
+```
+
+Lets look at the code
+
+
+```bash
+recent () {
+  [[ $1 = [1-9]* ]] && num=$1 || num=10
+  [[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'
+  [[ $2 = [1-9]* ]] && num=$2
+  [[ $2 = [[.:alpha:]]* ]] && f=$2
+  arrVar=()
+  echo Finding $(ColorCyan $num) most recent directories containing $(ColorGreen $f)
+  echo ---
+  for i in $(find . -not -path './node_modules/*' -not -path '*/.[a-fh-z]*' -name $f -print 2>/dev/null | awk -F "/$f" '{print $1}')
+  do
+    b=$(date -r $(ls -ta $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")
+    arrVar+=($b" ${i#./}")
+  done
+  array=($arrVar)
+  printf '%s\n' "${(o)array[@]}" | sort -r | head -n $num
+  echo ""
+  echo $(ColorCyan ${#arrVar[@]}) total
+}
+```
+
+Lets break down whats happening here.
+
+* **`[[ $1 = [1-9]* ]] && num=$1 || num=10`**
+    If the first argument is a number, then set the variable `num` to this value. Otherwise, sets `num` to the default value of 10.
+
+* **`[[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'`**
+    But if the first argument is a string then set the variable `f` to this value. Otherwise, sets `f` to the default value of '.git'.
+
+* **`[[ $2 = [1-9]* ]] && num=$2`**
+    If the second argument is a number, then set the variable `num` to this value. Otherwise, `num` remains its previous value, set on the first line.
+
+* **`[[ $2 = [.[:alpha:]]* ]] && f=$2`**
+    And if the second argument is a string then set the variable `f` to this value. Otherwise, `f` remains its previous value, set on the second line.
+
+* **`arrVar=()`**
+    Create an empty array called `arrVar`.
+
+* **`for i in $(find . -not -path './node_modules/*' -not -path '*/.[a-fh-z]*' -name $f -print 2>/dev/null | awk -F "/$f" '{print $1}')`**
+    Here we're searching for all file named $f (Makefile in this case), and then piping the output to awk to print only the directory and not directory/$f. We're also ignoring any directories named `node_modules` or hidden directories that don't start with a g (this is so we can include .git, .github in the search results)
+
+* **`b=$(date -r $(ls -ta $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")`**
+    Here we're finding the most recently updated file in each directory in the loop (**`ls -ta $i/* | head -n 1 | sed s/://g)`**) and printing the date of that file in the format `YYYY-MM-DD`.
+
+* **`arrVar+=($b" ${i#./}")`**
+    We're adding the date (**`$b`**) and directory (**`${i#./}`**) to the array `arrVar`. Note we're stripping off the leading dotslash from the directory name.
+
+* **`printf '%s\n' "${(o)array[@]}" | sort -r | head -n $num`**
+    We're printing the array `arrVar` in reverse order, and limiting the output to the number of directories specified by the variable `num`.
+
+* **`echo $(ColorCyan ${#arrVar[@]}) total`**
+    Finally, we're printing the total number of directories found.
+
+## ColorCyan and ColorGreen
+
+These are functions to print the text in color.
+
+```bash
+ColorCyan () {
+  echo -ne '\e[36m'$1'\e[0m'
+}
+ColorGreen(){
+  echo -ne '\e[32m'$1'\e[0m'
+}
+```
+
+## Extending the function
+
+We can now extend the function to find commonly searched for directories. Lets say we commonly search for the most recently updated astro applications. We can make an `astros` function that calls the `recent`
+
+```bash
+astros () {
+  [[ -n $1 ]] && recent $1 astro.config.mjs || recent 10 astro.config.mjs
+}
+```
+
+## Usage
+
+```bash
+➜ astros 4
+Finding 4 most recent directories containing astro.config.mjs
+---
+2023-05-28 venlo/template/astro
+2023-05-28 dev.io37.ch
+2023-05-07 seacroft
+2023-04-15 created-by-venlo/bus-station
+
+22 total
+```
