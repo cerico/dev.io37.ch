@@ -1,3 +1,12 @@
+## [0.2.17](https://github.com/cerico/dev.io37.ch/compare/v0.2.16...v0.2.17) (2023-05-30)
+
+
+### Bug Fixes
+
+* change font size for code to 1em ([d169a23](https://github.com/cerico/dev.io37.ch/commit/d169a23d6ea769eb644afbfbce3d9b91942d633f))
+
+
+
 ## [0.2.16](https://github.com/cerico/dev.io37.ch/compare/v0.2.15...v0.2.16) (2023-05-28)
 
 
