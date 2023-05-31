@@ -1,0 +1,19 @@
+name: Test
+on:        
+  push:
+    branches-ignore:
+      - main
+      
+jobs:
+  macbook:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: installs the site
+        run: npm install
+
+      - name: Build
+        run: make build
+
