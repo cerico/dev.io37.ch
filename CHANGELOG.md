@@ -1,3 +1,12 @@
+## [0.2.20](https://github.com/cerico/dev.io37.ch/compare/v0.2.19...v0.2.20) (2023-05-31)
+
+
+### Bug Fixes
+
+* remove colons from mdx paths ([ef48066](https://github.com/cerico/dev.io37.ch/commit/ef4806616e5887d75d25de7c1fd581a32569e074))
+
+
+
 ## [0.2.19](https://github.com/cerico/dev.io37.ch/compare/v0.2.18...v0.2.19) (2023-05-31)
 
 
