@@ -1,3 +1,12 @@
+## [0.2.18](https://github.com/cerico/dev.io37.ch/compare/v0.2.17...v0.2.18) (2023-05-31)
+
+
+### Bug Fixes
+
+* update astro-compress ([0287a26](https://github.com/cerico/dev.io37.ch/commit/0287a26145ed9cdab6f534a90bb7f6fc22f3b23d))
+
+
+
 ## [0.2.17](https://github.com/cerico/dev.io37.ch/compare/v0.2.16...v0.2.17) (2023-05-30)
 
 
