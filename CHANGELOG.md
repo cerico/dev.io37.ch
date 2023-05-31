@@ -1,3 +1,12 @@
+## [0.2.21](https://github.com/cerico/dev.io37.ch/compare/v0.2.20...v0.2.21) (2023-05-31)
+
+
+### Bug Fixes
+
+* format mdx filename without colons ([cff42f7](https://github.com/cerico/dev.io37.ch/commit/cff42f7ee8549f8624862676a9e0c149e551728c))
+
+
+
 ## [0.2.20](https://github.com/cerico/dev.io37.ch/compare/v0.2.19...v0.2.20) (2023-05-31)
 
 
