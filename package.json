@@ -11,7 +11,7 @@
   "dependencies": {
     "@astrojs/mdx": "^0.14.0",
     "astro": "^2.0.2",
-    "astro-compress": "0.0.13",
+    "astro-compress": "^1.1.46",
     "cheerio": "^1.0.0-rc.11",
     "d3": "^7.8.2",
     "globby": "^13.1.1",
