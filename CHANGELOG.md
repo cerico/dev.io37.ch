@@ -1,3 +1,12 @@
+## [0.2.19](https://github.com/cerico/dev.io37.ch/compare/v0.2.18...v0.2.19) (2023-05-31)
+
+
+### Bug Fixes
+
+* update astrojs/mdx ([7e33278](https://github.com/cerico/dev.io37.ch/commit/7e332782473dc0c0100bb44b55f8c17c3236a038))
+
+
+
 ## [0.2.18](https://github.com/cerico/dev.io37.ch/compare/v0.2.17...v0.2.18) (2023-05-31)
 
 
