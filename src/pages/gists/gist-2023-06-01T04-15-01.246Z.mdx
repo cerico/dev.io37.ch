@@ -1,0 +1,80 @@
+---
+title: Policing commit messages to conform to a semver-like standard
+author: ''
+published: true
+publishDate: Thu Jun 01 2023
+displayDate: 1 Jun
+cover: https://i.ibb.co/swkd4P2/ccc.jpg
+cover_image: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Sarajevo_City_Panorama.JPG/2560px-Sarajevo_City_Panorama.JPG
+description: Policing commit messages to conform to a semver-like standard
+tags:
+  - git
+---
+
+## Policing commit messages to conform to a semver-like standard
+
+I've been using a git hook to police commit messages for a while now to ensure that they conform to a semver-like standard. As someone thats prone to writing commit messages like "fixing stuff" or "more stuff" this has been a great way to enforce better commit messages. Lets look at the hook below.
+
+
+```bash
+#! ~/.config/git/hooks/commit-msg
+#!/usr/bin/env zsh
+declare -r msg=$(< $1);
+msg_without_comments=${msg%%#*}
+[[ ${#msg_without_comments} -lt 20 ]] && echo 'please enter a longer commit message' && exit 1
+[[ $msg == wip:[[:space:]]* ]] && exit 0
+[[ $msg == fix:[[:space:]]* ]] && exit 0
+[[ $msg == feat:[[:space:]]* ]] && exit 0
+[[ $msg == feat!:[[:space:]]* ]] && exit 0
+[[ $msg == docs:[[:space:]]* ]] && exit 0
+echo "your commit should begin with fix:, feat:, feat!:, docs:, or wip:"
+echo "dont forget the colon, and the space after it"
+echo "commits prefixed with wip must be squashed before submitting PR"
+exit 1
+```
+
+This hook is written in zsh, but it should be easy to convert to bash if thats your thing. The hook is placed in `~/.config/git/hooks/commit-msg` and is made executable with `chmod +x ~/.config/git/hooks/commit-msg`. The hook is run after you write your commit message and save it. If the hook exits with a non-zero exit code, the commit is aborted. The hook checks that the commit message is at least 20 characters long, and that it begins with one of the following prefixes: wip:, fix:, feat:, feat!:, or docs:.
+
+**fix:** (0.0.1), **feat:** (0.1.0), and **feat!:** (1.0.0) conform to semver standards, and can be used with a github action like conventional-changelog-action to auto-update package.json, changelog.md, and create releases on github.
+
+**docs:** signifes a change to documentation, and does not affect the version number.
+
+**wip:** is a special prefix that allows you to commit work in progress. These commits should be squashed before submitting a PR.
+
+Now if we try commiting with a message that doesn't conform to the above standards we get the following error.
+
+```bash
+☁  cerico@kelso:data-for-france ➜ (kos-13-adding-data-for-strasbourg) git commit -m "im just fixing stuff"
+your commit should begin with fix:, feat:, feat!:, docs:, or wip:
+dont forget the colon, and the space after it
+commits prefixed with wip must be squashed before submitting PR
+```
+
+## ghpr
+
+The above hook prevents commits which don't conform to the semver standard, but sometimes I want to be able to commit those "fixing stuff" type commits. The hook allows me to do so as long as the messages is prefixed with **wip:**. However, while I want to be able to make those commits on the branch, I still don't want them making their way into the main branch. Obviously we can catch this when it comes to reviewing the pull request but it would be nice to catch it before then. To do this I've created a function called `ghpr` which I use to create pull requests.
+
+```bash
+disallowed_commits () {
+  git cherry -v main | grep -v -e fix -e feat -e docs
+}
+
+ghpr () { # Create and validate a PR
+  if [[ $(disallowed_commits) ]]
+    then
+    echo please squash the following commits before submitting PR
+    disallowed_commits
+  else
+    git push
+    gh pr create --fill
+  fi
+}
+```
+
+This requires githubs cli utility **gh** to be installed. It checks if there are any commits on the current branch that don't conform to the semver standard, and if there are it prints them out and exits. If there aren't any disallowed commits it pushes the branch to github and creates a pull request. This allows me to make those "fixing stuff" commits on the branch, but prevents them from making their way into the main branch.
+
+```bash
+☁  cerico@kelso:data-for-france ➜ (kos-13-adding-data-for-strasbourg) ghpr
+please squash the following commits before submitting PR
++ 5690ebfea0ec119d8847c0220098534d6f4a15da wip: partly working
+```
