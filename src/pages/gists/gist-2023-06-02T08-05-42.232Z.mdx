@@ -1,6 +1,6 @@
 ---
 title: Why you should use a Makefile
-author: ""
+author: ''
 published: true
 publishDate: Fri Jun 02 2023
 displayDate: 2 Jun
@@ -16,7 +16,7 @@ tags:
 If you have a project or application where you need to run a lot of commands, npm, rake, bin, rails, etc, then you should consider using a Makefile as a front end utility. This has a few advantages:
 
 - You can run multiple commands at once
-- All commands are launched with the same command, **`make`**
+- All commands are launched with the same command, **make**
 - All commands are self-documenting
 
 Lets look at an example
@@ -39,7 +39,7 @@ storybook:
         yarn storybook
 ```
 
-Here we have a variety of commands that would be launched in different ways. With a Makefile, we can run them all with **`make <command>`**. We can also see all the commands available with **`make tldr`** or just **`make`**. This means any new commands added to the Makefile are automatically caught by the **`make tldr`** command.
+Here we have a variety of commands that would be launched in different ways. With a Makefile, we can run them all with **make \<command\>**. We can also see all the commands available with **make tldr** or just **make**. This means any new commands added to the Makefile are automatically caught by the **make tldr** command.
 
 ## In action
 
@@ -55,4 +55,4 @@ make generate
 make storybook
 ```
 
-Runnin the **`make`** command picks up the first rule (**`tldr`**) and runs it. The rule greps the file for available rules and lists them out in the format in which they should be run.
+Runnin the **make** command picks up the first rule (**tldr**) and runs it. The rule greps the file for available rules and lists them out in the format in which they should be run.
