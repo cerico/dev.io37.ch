@@ -1,3 +1,12 @@
+## [0.2.23](https://github.com/cerico/dev.io37.ch/compare/v0.2.22...v0.2.23) (2023-06-12)
+
+
+### Bug Fixes
+
+* typo in post on recent alias ([f97e732](https://github.com/cerico/dev.io37.ch/commit/f97e7328459a6a6662ce7dfa13a416635d521579))
+
+
+
 ## [0.2.22](https://github.com/cerico/dev.io37.ch/compare/v0.2.21...v0.2.22) (2023-05-31)
 
 
