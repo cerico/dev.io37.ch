@@ -40,7 +40,7 @@ recent () {
   [[ $1 = [1-9]* ]] && num=$1 || num=10
   [[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'
   [[ $2 = [1-9]* ]] && num=$2
-  [[ $2 = [[.:alpha:]]* ]] && f=$2
+  [[ $2 = [.[:alpha:]]* ]] && f=$2
   arrVar=()
   echo Finding $(ColorCyan $num) most recent directories containing $(ColorGreen $f)
   echo ---
