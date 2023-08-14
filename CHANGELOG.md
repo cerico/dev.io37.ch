@@ -1,3 +1,17 @@
+# [0.3.0](https://github.com/cerico/dev.io37.ch/compare/v0.2.23...v0.3.0) (2023-08-14)
+
+
+### Bug Fixes
+
+* remove discontinued astro-compress ([47dfb99](https://github.com/cerico/dev.io37.ch/commit/47dfb99b575bc0e7a97141783cb12df1a115133f))
+
+
+### Features
+
+* add index list to Makefile ([168c8a8](https://github.com/cerico/dev.io37.ch/commit/168c8a816085f338169ec1d86fc2d44f916cb5d5))
+
+
+
 ## [0.2.23](https://github.com/cerico/dev.io37.ch/compare/v0.2.22...v0.2.23) (2023-06-12)
 
 
