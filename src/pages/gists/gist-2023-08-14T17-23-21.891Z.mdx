@@ -1,0 +1,212 @@
+---
+title: Show relevant commits with the 'commits' function
+author: ""
+publishDate: Mon Aug 14 2023
+displayDate: 14 Aug
+cover: https://dev.io37.ch/images/commits.jpg
+description: Show relevant commits with the 'commits' function
+tags:
+  - js
+  - git
+---
+
+## Show relevant commits with the 'commits' function
+
+The purpose of the `commits` function is to show only relevant commits from `git log` and format them in a much more digestable format. Lets take a look
+
+## Usage
+
+```bash
+➜ (cer-123-add-browser-sync) commits
+5 seconds ago wip: change files/directory to a var in start ➜ cer-123-add-browser-sync
+4 minutes ago wip: check for index.html before starting ➜ cer-123-add-browser-sync
+3 days ago feat: add browser_sync ➜ cer-123-add-browser-sync
+88 minutes ago chore(release): v0.64.1 [skip ci] ➜ main
+```
+
+Here we see the `commits` function being run from a feature branch, with no arguments passed. We see all commits from the current branch following by the most recent commit from the main branch.
+
+```bash
+➜ (cer-123-add-browser-sync) commits 5
+3 minutes ago wip: change files/directory to a var in start ➜ cer-123-add-browser-sync
+7 minutes ago wip: check for index.html before starting ➜ cer-123-add-browser-sync
+3 days ago feat: add browser_sync ➜ cer-123-add-browser-sync
+2 hours ago chore(release): v0.64.1 [skip ci] ➜ main
+6 hours ago fix: dont hardcode default branch ➜ main
+2 days ago chore(release): v0.64.0 [skip ci] ➜ main
+```
+
+With an argument passed it will show more or fewer commits. In the case above we're asking for 5 commits. The default would show the 3 commits unique to the branch followed by the most recent commit from main, which is only 4. As we're asking for more commits the rest will be retried from main. We also color code which branch the commits are from for ease of readability
+
+```bash
+➜ (main) commits 4
+2 hours ago chore(release): v0.64.1 [skip ci]
+6 hours ago fix: dont hardcode default branch
+2 days ago chore(release): v0.64.0 [skip ci]
+2 days ago feat: show number of branches
+```
+
+On main it will by default show all commits from main, but as above we can also pass an argument to show fewer commits. In this case just the last 4. As we're on main there are no commits from other branches to show and so the branch name is not appeneded to each line
+
+We can also run the commits function in one level above a repo, to show recent commit status of multiple repos in that directory as follows
+
+```bash
+➜ commits
+cityguessr.com
+--------------
+39 minutes ago wip: check country of city for match first ➜ cer-219-limit-one-city-per-country
+40 minutes ago wip: create countries array ➜ cer-219-limit-one-city-per-country
+
+dev.io37.ch
+--------------
+3 minutes ago wip: update output of unmerged function ➜ wip-document-functions-output
+5 minutes ago wip: update output of commits function ➜ wip-document-functions-output
+
+fpl
+--------------
+4 days ago feat: update create release in gh action ➜ cer-105-update-create-release-in-gh-action
+5 days ago chore(release): v0.3.0 [skip ci] ➜ main
+
+lighthouse-ii
+--------------
+9 days ago chore(release): v1.2.1 [skip ci]
+12 days ago fix: dont commit logs
+```
+
+Here by default it shows the two most recent commits from each repo, for whichever branch is checked out in that repo. If there is only one unique commit in that branch the second commit will be from main, with the branch name color coded for ease of readability
+
+## The code
+
+Lets look at the code. There are 3 main functions, `commits`, `_commits_across_repos` and `_default_branch`
+
+### 1) commits
+
+```bash
+commits () { # List recent commits # ➜ commits 5
+  if [ ! -d .git ]; then
+    _commits_across_repos
+    return
+  fi
+  local branch="$(git branch --show-current)"
+  local default=$(_default_branch)
+  if [[ $branch = $default ]]; then
+    [[ $1 ]] && no=$1 || no=$(git rev-list --count $default)
+    git log --pretty=format:"%ar %s" |head -$no | _colorize_commit_type
+  else
+    unique_to_branch=$(git rev-list --count $default..$branch)
+    [[ $1 ]] && no=$1 || no=$(($unique_to_branch+1))
+    git log $default.. --pretty=format:"%ar %s" | head -$no |  awk -v branch="$branch" '{print $0 " ➜ " branch}' | _colorize_commit_type
+    if [[ $(($no-$unique_to_branch)) -gt 0  ]]; then
+      git log $default --pretty=format:"%ar %s" | head -$(($no-$unique_to_branch)) |  awk -v branch=$default '{print $0 " ➜ " branch}' | _colorize_commit_type
+    fi
+  fi
+}
+```
+
+The commits function lists recent commits. If called with an argument (like commits 5), it will display the specified number of commits. If no argument is provided, it will determine the number of commits to display based on the current branch and its relation to the default branch. Lets break down the function step by step.
+
+```bash
+if [ ! -d .git ]; then
+  _commits_across_repos
+  return
+fi
+```
+
+If the current directory doesn't contain a .git directory (indicating it's not a git repository), the function \_commits_across_repos is called. This makes the assumption that the current directory contains multiple git repositories, and will display the most recent commits from each of them.
+
+```bash
+local branch="$(git branch --show-current)"
+local default=$(_default_branch)
+```
+
+Here we get the current branch and use a helper function to get the default branch (usually either main or master).
+
+```bash
+if [[ $branch = $default ]]; then
+    [[ $1 ]] && no=$1 || no=$(git rev-list --count $default)
+    git log --pretty=format:"%ar %s" |head -$no | _colorize_commit_type
+```
+
+If the current branch is the default branch, the function checks if a number of commits to display is provided ($1). If not, it sets the number to the total commits on the default branch. It then fetches the commits and formats them using another helper function \_colorize_commit_type.
+
+```bash
+else
+    unique_to_branch=$(git rev-list --count $default..$branch)
+    [[ $1 ]] && no=$1 || no=$(($unique_to_branch+1))
+    git log $default.. --pretty=format:"%ar %s" | head -$no |  awk -v branch="$branch" '{print $0 " ➜ " branch}' | _colorize_commit_type
+```
+
+However, if on a feature or other non-default branch, the function first determines the number of commits unique to this branch. It then fetches and formats these commits, appending the branch name for clarity.
+
+```bash
+if [[ $(($no-$unique_to_branch)) -gt 0  ]]; then
+    git log $default --pretty=format:"%ar %s" | head -$(($no-$unique_to_branch)) |  awk -v branch=$default '{print $0 " ➜ " branch}' | _colorize_commit_type
+fi
+```
+
+If the requested number of commits exceeds the unique commits on the current branch, additional commits are fetched from the default branch to make up the difference.
+
+### 2) \_commits_across_repos
+
+```bash
+_commits_across_repos () {
+  [[ $1 ]] && no=$1 || no=2
+  for i in */; do
+    if [ -d "$i".git ]; then
+     (
+        cd "$i"
+        repo_name=$(basename $(git rev-parse --show-toplevel))
+        cyan_repo_name=$(ColorCyan $repo_name)
+        echo $cyan_repo_name
+        echo "----------------"
+        commits $no
+        echo ""
+      )
+    fi
+  done
+}
+```
+
+The \_commits_across_repos function iterates over directories in the current location, checks if they are git repositories, and then displays recent commits for each repository. The output is color-coded for better readability. Althuogh it can be run directly, its designed to be called by the commits function if the current directory is not a git repository so the same command can be used to list commits in both cases. Lets break down the function step by step.
+
+```bash
+[[ $1 ]] && no=$1 || no=2
+```
+
+If the function is called with an argument (like \_commits_across_repos 3), it will display the specified number of commits. If no argument is provided, it defaults to displaying 2 commits. As its called by the main function `commits` with no arguments two commits is the default behaviour.
+
+```bash
+for i in */; do
+    if [ -d "$i".git ]; then
+```
+
+The function loops over all directories in the current location and checks if the directory contains a .git directory, indicating it's a git repository.
+
+```bash
+cd "$i"
+repo_name=$(basename $(git rev-parse --show-toplevel))
+cyan_repo_name=$(ColorCyan $repo_name)
+echo $cyan_repo_name
+echo "----------------"
+commits $no
+echo ""
+```
+
+The function displays the color-coded repository name followed by a separator line. It then calls the previously explained commits function to display the recent commits. An empty line is added for better separation between repositories.
+
+### 3) \_default_branch
+
+Finding the default branch
+
+```bash
+_default_branch () {
+	if [ ! -f .git/refs/remotes/origin/HEAD ]; then
+		local branch="main"
+	else
+		local branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+	fi
+	echo $branch
+}
+```
+
+If the remote default branch isn't setup correctly for some reason, we'll assume the default branch is main. The prescence of this file doesn't seem particular consistent, hence adding in a fallback of main
