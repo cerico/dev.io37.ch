@@ -1,0 +1,59 @@
+---
+title: Better showing of all unmerged commits across repos
+author: ""
+publishDate: Tue Aug 15 2023
+displayDate: 15 Aug
+cover: https://dev.io37.cg/images/unmerged.jpg
+description: Better showing of all unmerged commits across repos
+tags:
+  - js
+  - git
+---
+
+## Better showing of all unmerged commits across repos
+
+Here is a starter post with an example codeblock.
+
+### 1) unmerged
+
+```bash
+unmerged () { # List unmerged commits # ➜ unmerged 5
+  if [ ! -d .git ]; then
+    _unmerged_commits_across_repos
+    return
+  fi
+  local default=$(_default_branch)
+  [[ $1 ]] && no=$1 || no=500 # List most recent unmerged commit in each branch
+  for branch in $(git branch --sort=-authordate | tr -d "* " | grep -v "^$default$"); do
+    if [ -n "$(git log $default..$branch)" ]; then
+      no=$(git rev-list --count $default..$branch)
+      date=$(git log -1 $branch --pretty=format:"%ar" --no-walk)
+      message=$(git log -1 $branch --pretty=format:"%s" --no-walk)
+      printf "$no $date $message $branch\n"
+    fi
+  done | head -$no | awk '{first = $1; date = $2 " " $3 " " $4; last = $NF; message = substr($0, length($1 $2 $3 $4) + 5, length($0) - length($1 $2 $3 $4 $NF) - 5); printf "\033[0;32m%-3s \033[1;0m%-15s \033[0;32m%-52s \033[0;36m%s\n", first, date, message, last}'
+}
+```
+
+### 2) \_unmerged_commits_across_repos
+
+```bash
+_unmerged_commits_across_repos () {
+  for i in */; do
+    if [ -d "$i".git ]; then
+      (
+        cd "$i"
+        local output=$(unmerged 2)
+        if [[ -n "$output" ]]; then
+          local repo_name=$(basename $(git rev-parse --show-toplevel))
+          local cyan_repo_name=$(ColorCyan $repo_name)
+          echo $cyan_repo_name
+          echo "----------------"
+          echo $output
+        fi
+      )
+    fi
+  done
+  [ -d .git ] && unmerged 5
+}
+```
