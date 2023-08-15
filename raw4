@@ -1,0 +1,25 @@
+The output you've provided is the result of running the `_unmerged_commits_across_repos` function in your current directory. This function checks for unmerged commits across multiple repositories located in the current directory and then prints the results.
+
+Here's a breakdown of the output:
+
+- **Repository Name**: Each section starts with the name of a repository (e.g., `cityguessr.com`, `dev.io37.ch`, `fpl`, etc.) in what appears to be cyan color, followed by a separator (`----------------`).
+
+- **Number of Unmerged Commits**: The first column in each section (e.g., `5`, `1`, `4`, etc.) represents the number of commits in the branch that haven't been merged into the default branch of that repository.
+
+- **Commit Age**: The second column (e.g., `14 hours ago`, `10 days ago`, `4 seconds ago`, etc.) indicates how long ago the most recent commit on that branch was made.
+
+- **Commit Message**: The third column provides the message of the most recent commit on that branch.
+
+- **Branch Name**: The fourth column is the name of the branch.
+
+From this output, you can gather several insights:
+
+1. **Multiple Repositories**: You have several repositories in your current directory, and the function has checked each of them for unmerged commits.
+
+2. **Work in Progress**: Many branches have commit messages starting with `wip:`, indicating that they contain work that might still be in progress.
+
+3. **Age of Commits**: Some branches have commits that were made recently (e.g., `4 seconds ago`), while others have commits that are several weeks or months old.
+
+4. **Different Types of Changes**: The commit messages use prefixes like `wip:`, `feat:`, and `fix:` to indicate the type of change made.
+
+If you're managing multiple projects or repositories, this function provides a quick overview of the branches that might need attention, whether that's merging, further development, or cleanup.
