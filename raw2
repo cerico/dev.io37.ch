@@ -1,0 +1,44 @@
+The function `_unmerged_commits_across_repos` is designed to check for unmerged commits across multiple repositories in the current directory. Here's a step-by-step breakdown of what this function does:
+
+1. **Loop through directories**:
+    ```bash
+    for i in */
+    ```
+    This loop iterates over all directories in the current directory.
+
+2. **Check if the directory is a git repository**:
+    ```bash
+    if [ -d "$i".git ]
+    ```
+    This checks if the directory contains a `.git` directory, which would indicate it's a git repository.
+
+3. **Change to the directory and check for unmerged commits**:
+    ```bash
+    (
+        cd "$i"
+        local output=$(unmerged 2)
+        ...
+    )
+    ```
+    The code inside the parentheses runs in a subshell, which means it won't affect the current shell's environment. The script changes to the directory `$i` and then calls the `unmerged` function (which you provided earlier) to check for up to 2 unmerged commits.
+
+4. **If there are unmerged commits, print the repository name and the commits**:
+    ```bash
+    if [[ -n "$output" ]]
+    then
+        local repo_name=$(basename $(git rev-parse --show-toplevel))
+        local cyan_repo_name=$(ColorCyan $repo_name)
+        echo $cyan_repo_name
+        echo "----------------"
+        echo $output
+    fi
+    ```
+    If the `unmerged` function returns any output (indicating there are unmerged commits), the script gets the name of the repository using `git rev-parse --show-toplevel` and then prints the repository name in cyan (using a `ColorCyan` function which is not provided in your script), followed by a separator and the output from the `unmerged` function.
+
+5. **Check the current directory for unmerged commits**:
+    ```bash
+    [ -d .git ] && unmerged 5
+    ```
+    After checking all the directories, if the current directory itself is a git repository, the script calls the `unmerged` function to check for up to 5 unmerged commits.
+
+In summary, when you run the `_unmerged_commits_across_repos` function, it will check all directories in the current directory for unmerged commits and print the results. If the current directory itself is a git repository, it will also check it for unmerged commits.
