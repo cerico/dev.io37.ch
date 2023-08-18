@@ -1,18 +1,20 @@
 ---
 title: Finding most recently updated projects with the 'recent' function
-author: ''
+author: ""
 published: true
 publishDate: Mon May 29 2023
 displayDate: 29 May
-cover: 'https://i.ibb.co/swkd4P2/ccc.jpg'
+cover: "https://i.ibb.co/swkd4P2/ccc.jpg"
 description: Finding most recently updated projects with the 'recent' function
 tags:
   - shell
 id: 1486665
-date: '2023-05-31T06:55:23Z'
+date: "2023-05-31T06:55:23Z"
 ---
 
 ## Finding most recently updated projects with the 'recent' function
+
+Changeable Width Control Boards plug into permanent receptacles in the keyboard and photo unit desks. New width control circuitry makes it practical to mix two styles and/or sizes of type on one disc. Mixtures must have approximately the same set-width for automatic composing. For semi-automatic composing, any mixture of available styles or sizes is feasible. New three-position dials covern selection or mixture of the composition. The new width circuits also extend the Typesetter’s inherent versatility in setting sorts and “pi” characters from the keyboard—and at normal keyboarding speed. Key caps of transparent plastic can be supplied with special arrangements for proper keyboard identification. There is no limitation on furnishing special discs and control boards for special applications.
 
 The purpose of this `recent` function is to find and print the most recently updated directories containing a specific file or folder, relative to the current directory. Lets say for example we wanted to find the 6 most recently updated directories containing a `Makefile`, showing the date of the last updated file in each directory (ie not the Makefile itself)
 
@@ -33,7 +35,6 @@ Finding 6 most recent directories containing Makefile
 ```
 
 Lets look at the code
-
 
 ```bash
 recent () {
@@ -58,35 +59,45 @@ recent () {
 
 Lets break down whats happening here.
 
-* **`[[ $1 = [1-9]* ]] && num=$1 || num=10`**
-    If the first argument is a number, then set the variable `num` to this value. Otherwise, sets `num` to the default value of 10.
+- **`[[ $1 = [1-9]* ]] && num=$1 || num=10`**
 
-* **`[[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'`**
-    But if the first argument is a string then set the variable `f` to this value. Otherwise, sets `f` to the default value of '.git'.
+  If the first argument is a number, then set the variable **num** to this value. Otherwise, sets `num` to the default value of 10.
 
-* **`[[ $2 = [1-9]* ]] && num=$2`**
-    If the second argument is a number, then set the variable `num` to this value. Otherwise, `num` remains its previous value, set on the first line.
+- **`[[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'`**
 
-* **`[[ $2 = [.[:alpha:]]* ]] && f=$2`**
-    And if the second argument is a string then set the variable `f` to this value. Otherwise, `f` remains its previous value, set on the second line.
+  But if the first argument is a string then set the variable `f` to this value. Otherwise, sets `f` to the default value of '.git'.
 
-* **`arrVar=()`**
-    Create an empty array called `arrVar`.
+- **`[[ $2 = [1-9]* ]] && num=$2`**
 
-* **`for i in $(find . -not -path './node_modules/*' -not -path '*/.[a-fh-z]*' -name $f -print 2>/dev/null | awk -F "/$f" '{print $1}')`**
-    Here we're searching for all file named $f (Makefile in this case), and then piping the output to awk to print only the directory and not directory/$f. We're also ignoring any directories named `node_modules` or hidden directories that don't start with a g (this is so we can include .git, .github in the search results)
+  If the second argument is a number, then set the variable `num` to this value. Otherwise, `num` remains its previous value, set on the first line.
 
-* **`b=$(date -r $(ls -ta $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")`**
-    Here we're finding the most recently updated file in each directory in the loop (**`ls -ta $i/* | head -n 1 | sed s/://g)`**) and printing the date of that file in the format `YYYY-MM-DD`.
+- **`[[ $2 = [.[:alpha:]]* ]] && f=$2`**
 
-* **`arrVar+=($b" ${i#./}")`**
-    We're adding the date (**`$b`**) and directory (**`${i#./}`**) to the array `arrVar`. Note we're stripping off the leading dotslash from the directory name.
+  And if the second argument is a string then set the variable `f` to this value. Otherwise, `f` remains its previous value, set on the second line.
 
-* **`printf '%s\n' "${(o)array[@]}" | sort -r | head -n $num`**
-    We're printing the array `arrVar` in reverse order, and limiting the output to the number of directories specified by the variable `num`.
+- **`arrVar=()`**
 
-* **`echo $(ColorCyan ${#arrVar[@]}) total`**
-    Finally, we're printing the total number of directories found.
+  Create an empty array called `arrVar`.
+
+- **`for i in $(find . -not -path './node_modules/*' -not -path '*/.[a-fh-z]*' -name $f -print 2>/dev/null | awk -F "/$f" '{print $1}')`**
+
+  Here we're searching for all file named $f (Makefile in this case), and then piping the output to awk to print only the directory and not directory/$f. We're also ignoring any directories named `node_modules` or hidden directories that don't start with a g (this is so we can include .git, .github in the search results)
+
+- **`b=$(date -r $(ls -ta $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")`**
+
+  Here we're finding the most recently updated file in each directory in the loop (**`ls -ta $i/* | head -n 1 | sed s/://g)`**) and printing the date of that file in the format `YYYY-MM-DD`.
+
+- **`arrVar+=($b" ${i#./}")`**
+
+  We're adding the date (**`$b`**) and directory (**`${i#./}`**) to the array `arrVar`. Note we're stripping off the leading dotslash from the directory name.
+
+- **`printf '%s\n' "${(o)array[@]}" | sort -r | head -n $num`**
+
+  We're printing the array `arrVar` in reverse order, and limiting the output to the number of directories specified by the variable `num`.
+
+- **`echo $(ColorCyan ${#arrVar[@]}) total`**
+
+  Finally, we're printing the total number of directories found.
 
 ## ColorCyan and ColorGreen
 

@@ -1,11 +1,12 @@
 .detective article .entry,
+.detective .copy p,
 .detective {
   font-family: 'Noto Serif', serif;
   font-family: 'Bitter', serif;
 }
 
 .detective {
-  font-family: 'Noto Serif', serif;
+  // font-family: 'Noto Serif', serif;
   font-family: 'Bitter', serif;
 }
 
@@ -108,13 +109,12 @@ pre+blockquote {
   margin-top: -1rem
 }
 
-.copy ul li p:last-child {
+.copy ul li p:not(:first-child) {
   margin-right: 1rem;
   padding: 1rem;
   margin-left: -2.5rem;
   margin-top: -0.5rem;
   padding-top: 0px;
-  // padding-top: 0.5rem;
 
   .code {
     color: var(--white)
