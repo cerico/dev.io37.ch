@@ -1,3 +1,12 @@
+## [0.3.1](https://github.com/cerico/dev.io37.ch/compare/v0.3.0...v0.3.1) (2023-08-18)
+
+
+### Bug Fixes
+
+* publish to staging url in test workflow ([113dee2](https://github.com/cerico/dev.io37.ch/commit/113dee26688977d4fad186fbb515aafb560cbae4))
+
+
+
 # [0.3.0](https://github.com/cerico/dev.io37.ch/compare/v0.2.23...v0.3.0) (2023-08-14)
 
 
