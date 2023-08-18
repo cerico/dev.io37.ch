@@ -5,11 +5,12 @@ publishDate: Tue Aug 15 2023
 displayDate: 15 Aug
 cover: https://dev.io37.cg/images/unmerged.jpg
 description: Improving display of unmerged commits
+style: stuttgart
 tags:
   - git
 ---
 
-# Improving display of unmerged commits
+## Improving display of unmerged commits
 
 The purpose of the `unmerged` function is to show only unmerged commits from all branches. Lets take a look at the output, and then delve into the code.
 
@@ -30,9 +31,9 @@ When the function is run from outside a repo it will check for repos in the curr
 
 ## Code
 
-Lets take a look at the code. We're look at the main `unmerged` function initially, and then the two helper functions it uses.
+Lets take a look at the code. We'll look at the main `unmerged` function initially, and then the two helper functions it uses.
 
-### 1) unmerged
+#### `unmerged`
 
 ```bash
 unmerged () { # List unmerged commits # ➜ unmerged 5
@@ -55,66 +56,51 @@ unmerged () { # List unmerged commits # ➜ unmerged 5
 
 Lets break down the above function step by step.
 
-1. **Check if the current directory is a git repository**:
+```bash
+if [ ! -d .git ]
+then
+    _unmerged_commits_across_repos
+    return
+fi
+```
 
-   ```bash
-   if [ ! -d .git ]
-   then
-       _unmerged_commits_across_repos
-       return
-   fi
-   ```
+> If the current directory is not a git repository (i.e., it doesn't have a `.git` directory), it calls the helper function `_unmerged_commits_across_repos` and then exits.
 
-   If the current directory is not a git repository (i.e., it doesn't have a `.git` directory), it calls the helper function `_unmerged_commits_across_repos` and then exits.
+```bash
+local default=$(_default_branch)
+```
 
-2. **Determine the default branch**:
+> This calls the helper function `_default_branch` to determine the default branch of the repository.
 
-   ```bash
-   local default=$(_default_branch)
-   ```
+```bash
+[[ -n $1 ]] && no=$1 || no=500
+```
 
-   This calls the helper function `_default_branch` to determine the default branch of the repository.
+> If the function is called with an argument (e.g., `unmerged 10`), it will use that number to limit the number of branches displayed. If not, it defaults to showing 500 branches, effectively showing all unmerged branches
 
-3. **Determine the number of branches to display**:
+```bash
+for branch in $(git branch --sort=-authordate | tr -d "* " | grep -v "^$default$")
+  if [ -n "$(git log $default..$branch)" ]
+```
 
-   ```bash
-   [[ -n $1 ]] && no=$1 || no=500
-   ```
+> This loop goes through each branch in the repository, sorted by the author date in descending order. It excludes the default branch, and checks if there are any commits in the branch that are not in the default branch.
 
-   If the function is called with an argument (e.g., `unmerged 10`), it will use that number to limit the number of branches displayed. If not, it defaults to showing 500 branches, effectively showing all unmerged branches
+```bash
+if [ -n "$(git log $default..$branch)" ]
+```
 
-4. **Loop through each branch**:
+> This checks if there are any commits in the branch that are not in the default branch.
 
-   ```bash
-   for branch in $(git branch --sort=-authordate | tr -d "* " | grep -v "^$default$")
-     if [ -n "$(git log $default..$branch)" ]
-   ```
+```bash
+no=$(git rev-list --count $default..$branch)
+date=$(git log -1 $branch --pretty=format:"%ar" --no-walk)
+message=$(git log -1 $branch --pretty=format:"%s" --no-walk)
+printf "$no $date $message $branch\n"
+```
 
-   This loop goes through each branch in the repository, sorted by the author date in descending order. It excludes the default branch, and checks if there are any commits in the branch that are not in the default branch.
+> This prints the number of unmerged commits, the date of the last commit, its message, and the branch name. The `awk` command at the end of the function is used to format the output and add some color to it. The output will show the number of unmerged commits in green, the date in default color, the commit message in green, and the branch name in cyan.
 
-5. **Check if the branch has unmerged commits**:
-
-   ```bash
-   if [ -n "$(git log $default..$branch)" ]
-   ```
-
-   This checks if there are any commits in the branch that are not in the default branch.
-
-6. **Get the number of unmerged commits, the date of the last commit, and its message**:
-
-   ```bash
-   no=$(git rev-list --count $default..$branch)
-   date=$(git log -1 $branch --pretty=format:"%ar" --no-walk)
-   message=$(git log -1 $branch --pretty=format:"%s" --no-walk)
-   printf "$no $date $message $branch\n"
-   ```
-
-   This prints the number of unmerged commits, the date of the last commit, its message, and the branch name.
-
-7. **Format and color the output**:
-   The `awk` command at the end of the function is used to format the output and add some color to it. The output will show the number of unmerged commits in green, the date in default color, the commit message in green, and the branch name in cyan.
-
-### 2) \_unmerged_commits_across_repos
+#### `_unmerged_commits_across_repos`
 
 ```bash
 _unmerged_commits_across_repos () {
@@ -137,42 +123,36 @@ _unmerged_commits_across_repos () {
 
 Lets break down the above function step by step.
 
-1. **Loop through directorie and check if it contains a git repository**:
+```bash
+for i in */
+  if [ -d "$i".git ]
+```
 
-   ```bash
-   for i in */
-     if [ -d "$i".git ]
-   ```
+> This loop iterates over all directories in the current directory.
 
-   This loop iterates over all directories in the current directory.
+```bash
+(
+    cd "$i"
+    local output=$(unmerged 2)
+    ...
+)
+```
 
-2. **Change to the directory and check for unmerged commits**:
+> The code inside the parentheses runs in a subshell, which means it won't affect the current shell's environment. The script changes to the directory `$i` and then calls the `unmerged` to check for the 2 most recent unmerged commits.
 
-   ```bash
-   (
-       cd "$i"
-       local output=$(unmerged 2)
-       ...
-   )
-   ```
+```bash
+if [[ -n "$output" ]]
+then
+    local repo_name=$(basename $(git rev-parse --show-toplevel))
+    echo '\e[36m'$repo_name
+    echo "----------------"
+    echo $output
+fi
+```
 
-   The code inside the parentheses runs in a subshell, which means it won't affect the current shell's environment. The script changes to the directory `$i` and then calls the `unmerged` to check for the 2 most recent unmerged commits.
+> If the `unmerged` function returns any output (indicating there are unmerged commits), the script gets the name of the repository using `git rev-parse --show-toplevel` and then prints the repository name in cyan, followed by a separator, and the output from the `unmerged` function.
 
-3. **If there are unmerged commits, print the repository name and the commits**:
-
-   ```bash
-   if [[ -n "$output" ]]
-   then
-       local repo_name=$(basename $(git rev-parse --show-toplevel))
-       echo '\e[36m'$repo_name
-       echo "----------------"
-       echo $output
-   fi
-   ```
-
-   If the `unmerged` function returns any output (indicating there are unmerged commits), the script gets the name of the repository using `git rev-parse --show-toplevel` and then prints the repository name in cyan, followed by a separator, and the output from the `unmerged` function.
-
-### 3) \_default_branch
+#### `_default_branch`
 
 ```bash
 _default_branch () {
