@@ -3,14 +3,17 @@
   --font-body: sans-serif;
 }
 
-body { font-family: var(--font-body)}
+body {
+  font-family: var(--font-body)
+}
 
 article {
-  max-width: 70rem;
+  max-width: 62.5rem;
   margin: 0 auto;
 }
 
-p, li  {
+p,
+li {
   --font-size: 1rem;
   font-size: var(--font-size);
   line-height: calc(var(--font-size) * 1.5);
@@ -18,7 +21,7 @@ p, li  {
   text-align: justify;
   font-family: var(--font-p);
   max-width: 70rem;
-  
+
   @media (min-width:768px) and (orientation:landscape) {
     --font-size: 1.25rem;
   }
@@ -31,6 +34,7 @@ p, li  {
   line-height: 1.1;
   margin-bottom: 1.25rem;
   max-width: 800px;
+
   @media (min-width:768px) and (orientation:landscape) {
     font-size: 4rem;
   }
@@ -38,6 +42,7 @@ p, li  {
 
 .subtitle {
   font-size: 1.125rem;
+
   @media (min-width:768px) and (orientation:landscape) {
     font-size: 1.375rem;
   }
@@ -45,7 +50,7 @@ p, li  {
 
 .page-title {
   margin-bottom: 40px;
-  font-size: 1.2rem;;
+  font-size: 1.2rem;
+  ;
   letter-spacing: 2.6px;
 }
-
