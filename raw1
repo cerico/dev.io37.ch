@@ -1,0 +1,53 @@
+The provided script is a shell function named `unmerged`. It's designed to be used in a shell environment, such as bash or zsh. The function's purpose is to list branches that have commits not merged into the default branch. Here's a breakdown of what the function does:
+
+1. **Check if the current directory is a git repository**:
+    ```bash
+    if [ ! -d .git ]
+    then
+        _unmerged_commits_across_repos
+        return
+    fi
+    ```
+    If the current directory is not a git repository (i.e., it doesn't have a `.git` directory), it calls another function `_unmerged_commits_across_repos` (which is not provided in the script) and then exits.
+
+2. **Determine the default branch**:
+    ```bash
+    local default=$(_default_branch)
+    ```
+    This line calls another function `_default_branch` (which is also not provided) to get the name of the default branch and assigns it to the `default` variable.
+
+3. **Determine the number of branches to display**:
+    ```bash
+    [[ -n $1 ]] && no=$1  || no=500
+    ```
+    If the function is called with an argument (e.g., `unmerged 10`), it will use that number to limit the number of branches displayed. If not, it defaults to showing 500 branches.
+
+4. **Loop through each branch**:
+    ```bash
+    for branch in $(git branch --sort=-authordate | tr -d "* " | grep -v "^$default$")
+    ```
+    This loop goes through each branch in the repository, sorted by the author date in descending order. It excludes the default branch.
+
+5. **Check if the branch has unmerged commits**:
+    ```bash
+    if [ -n "$(git log $default..$branch)" ]
+    ```
+    This checks if there are any commits in the branch that are not in the default branch.
+
+6. **Get the number of unmerged commits, the date of the last commit, and its message**:
+    ```bash
+    no=$(git rev-list --count $default..$branch)
+    date=$(git log -1 $branch --pretty=format:"%ar" --no-walk)
+    message=$(git log -1 $branch --pretty=format:"%s" --no-walk)
+    ```
+
+7. **Print the information**:
+    ```bash
+    printf "$no $date $message $branch\n"
+    ```
+    This prints the number of unmerged commits, the date of the last commit, its message, and the branch name.
+
+8. **Format and color the output**:
+    The `awk` command at the end of the function is used to format the output and add some color to it. The output will show the number of unmerged commits in green, the date in default color, the commit message in green, and the branch name in cyan.
+
+In summary, when you run the `unmerged` function in a git repository, it will display branches that have commits not yet merged into the default branch, along with some details about the last commit in each of those branches. If you're not in a git repository, it will attempt to call `_unmerged_commits_across_repos`, but the behavior of that function is not provided in the script.

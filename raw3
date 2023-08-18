@@ -1,0 +1,21 @@
+The output you've provided is the result of running the `unmerged` function in your git repository. It lists branches that have commits not yet merged into the default branch. Here's a breakdown of the output:
+
+- **Number of Unmerged Commits**: The first column (e.g., `3`, `1`, `7`) represents the number of commits in the branch that haven't been merged into the default branch.
+  
+- **Commit Age**: The second column (e.g., `45 seconds ago`, `3 hours ago`, `3 months ago`) indicates how long ago the most recent commit on that branch was made.
+
+- **Commit Message**: The third column (e.g., `wip: add post on unmerged function`, `feat: add post on commits function`) is the message of the most recent commit on that branch.
+
+- **Branch Name**: The fourth column (e.g., `cer-131-add-post-on-unmerged-function`, `cer-130-add-post-on-commits-function`) is the name of the branch.
+
+From the output, you can gather several insights:
+
+1. The branch you're currently on (`cer-131-add-post-on-unmerged-function`) has 3 commits that haven't been merged into the default branch. The most recent commit on this branch was made 45 seconds ago.
+
+2. There are several branches with just one unmerged commit, and some of these commits are 3 months old. This might indicate that these branches were created for specific tasks or fixes but haven't been merged or deleted.
+
+3. Some commit messages start with `wip:`, which typically stands for "work in progress". These branches might contain unfinished work.
+
+4. Other commit messages start with prefixes like `feat:`, `fix:`, and `docs:`. These prefixes are often used in conventional commit messages to indicate the type of change made (feature, bug fix, documentation, etc.).
+
+If you're looking to clean up your repository, this output can be a helpful starting point. You might decide to merge some of these branches, delete old or irrelevant ones, or continue working on the "work in progress" branches.
