@@ -1,3 +1,12 @@
+# [0.4.0](https://github.com/cerico/dev.io37.ch/compare/v0.3.1...v0.4.0) (2023-08-21)
+
+
+### Features
+
+* add unmerged post w updated styles ([c2609c8](https://github.com/cerico/dev.io37.ch/commit/c2609c8c66784c42afbf8fcd337f32b6a1869224))
+
+
+
 ## [0.3.1](https://github.com/cerico/dev.io37.ch/compare/v0.3.0...v0.3.1) (2023-08-18)
 
 
