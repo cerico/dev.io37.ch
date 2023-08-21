@@ -1,15 +1,15 @@
 ---
 title: Finding most recently updated projects with the 'recent' function
-author: ''
+author: ""
 published: true
 publishDate: Mon May 29 2023
 displayDate: 29 May
-cover: 'https://i.ibb.co/swkd4P2/ccc.jpg'
+cover: "https://i.ibb.co/swkd4P2/ccc.jpg"
 description: Finding most recently updated projects with the 'recent' function
 tags:
   - shell
 id: 1486665
-date: '2023-05-31T06:55:23Z'
+date: "2023-05-31T06:55:23Z"
 ---
 
 ## Finding most recently updated projects with the 'recent' function
@@ -79,7 +79,7 @@ Lets break down whats happening here.
 
   Here a tmp file `tmpFile` is creatd, to store the results of the search.
 
-- **`find . -maxdepth 5 -not -path '_node_modules_' -name $f -print 2>/dev/null | while read -r line; do**
+- **`find . -maxdepth 5 -not -path '_node_modules_' -name $f -print 2>/dev/null | while read -r line; do`**
 
   Here we execute a find command, searching for the file or directory specified by the variable `f`. We're limiting the search to a maximum depth of 5 directories, and excluding any directories named `node_modules`. We're then piping the results of the find command to a while loop.
 
