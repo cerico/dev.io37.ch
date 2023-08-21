@@ -8,7 +8,8 @@ title: ${title}
 author: ''
 publishDate: ${now}
 displayDate: ${displayDate}
-cover: https://i.ibb.co/swkd4P2/ccc.jpg
+cover: 'https://i.ibb.co/swkd4P2/ccc.jpg'
+cover_image: 'https://i.ibb.co/swkd4P2/ccc.jpg'
 description: ${title}
 tags:
   - js
