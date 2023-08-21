@@ -1,3 +1,12 @@
+## [0.4.1](https://github.com/cerico/dev.io37.ch/compare/v0.4.0...v0.4.1) (2023-08-21)
+
+
+### Bug Fixes
+
+* remove post for font size testing ([fc53c9f](https://github.com/cerico/dev.io37.ch/commit/fc53c9fb46c417016dfd04b5640cfa89e82f3df4))
+
+
+
 # [0.4.0](https://github.com/cerico/dev.io37.ch/compare/v0.3.1...v0.4.0) (2023-08-21)
 
 
