@@ -1,3 +1,12 @@
+## [0.4.2](https://github.com/cerico/dev.io37.ch/compare/v0.4.1...v0.4.2) (2023-08-21)
+
+
+### Bug Fixes
+
+* missing backtick in article ([49cceb7](https://github.com/cerico/dev.io37.ch/commit/49cceb7e597e9816529f1a2a479ead21618fbe7d))
+
+
+
 ## [0.4.1](https://github.com/cerico/dev.io37.ch/compare/v0.4.0...v0.4.1) (2023-08-21)
 
 
