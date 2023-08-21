@@ -1,3 +1,12 @@
+## [0.4.5](https://github.com/cerico/dev.io37.ch/compare/v0.4.4...v0.4.5) (2023-08-21)
+
+
+### Bug Fixes
+
+* image paths absolute ([3161e9e](https://github.com/cerico/dev.io37.ch/commit/3161e9e0b36608db97fa93596ca0a7ac80076637))
+
+
+
 ## [0.4.4](https://github.com/cerico/dev.io37.ch/compare/v0.4.3...v0.4.4) (2023-08-21)
 
 
