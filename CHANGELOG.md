@@ -1,3 +1,12 @@
+## [0.4.6](https://github.com/cerico/dev.io37.ch/compare/v0.4.5...v0.4.6) (2023-08-21)
+
+
+### Bug Fixes
+
+* add cover image in devto format ([e5537ea](https://github.com/cerico/dev.io37.ch/commit/e5537ea185bfd8cf345bb0ea0a33a01d6729ef98))
+
+
+
 ## [0.4.5](https://github.com/cerico/dev.io37.ch/compare/v0.4.4...v0.4.5) (2023-08-21)
 
 
