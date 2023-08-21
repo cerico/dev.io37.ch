@@ -1,3 +1,12 @@
+## [0.4.3](https://github.com/cerico/dev.io37.ch/compare/v0.4.2...v0.4.3) (2023-08-21)
+
+
+### Bug Fixes
+
+* publish true for umerged post ([0e0d47d](https://github.com/cerico/dev.io37.ch/commit/0e0d47d457b068bf25e3b2ed7541a25f4859079f))
+
+
+
 ## [0.4.2](https://github.com/cerico/dev.io37.ch/compare/v0.4.1...v0.4.2) (2023-08-21)
 
 
