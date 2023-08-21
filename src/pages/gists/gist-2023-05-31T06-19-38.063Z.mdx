@@ -1,33 +1,33 @@
 ---
 title: Blocking commits on main with the pre-commit hook
-author: ''
+author: ""
 published: true
 publishDate: Wed May 31 2023
 displayDate: 31 May
-cover: 'https://i.ibb.co/swkd4P2/ccc.jpg'
+cover: "https://i.ibb.co/swkd4P2/ccc.jpg"
 description: Blocking commits on main with the pre-commit hook
 tags:
   - git
 id: 1486756
-date: '2023-05-31T08:51:43Z'
+date: "2023-05-31T08:51:43Z"
 ---
 
 ## Blocking commits on main with the pre-commit hook
 
 While you can edit the settings on github to block commits on main, it's also possible to do it locally so you can prevent it from happening in the first place by using the pre-commit hook.
 
-
 ```bash
 # ~/.config/git/hooks/pre-commit
 branch="$(git branch --show-current)"
+commits="$(git rev-list --all)"
 
-if [ "$branch" = "main" ]; then
-  echo "main branch commit is blocked"
+if [ "$branch" = "main" ] && [ "$commits" != "" ]; then
+  echo "Commit on main branch is blocked, there are already existing commits."
   exit 1
 fi
 ```
 
-Any newly created repo will automatically have this hook in place. If you want to add it to an existing repo, you can copy the file to the `.git/hooks` directory.
+Any newly created repo will automatically have this hook in place. If you want to add it to an existing repo, you can copy the file to the `.git/hooks` directory. Typically in a newly created repo we will want the initial commit to be on main, so the hook also checks there are any existing commits before blocking the commit.
 
 ```bash
 ☁  brew@kelso:asda ➜ (main) ✗ git add README.md

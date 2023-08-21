@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  macbook:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,6 +16,14 @@ jobs:
 
       - name: Build
         run: make build
+
+      - name: Create branch.html
+        run: |
+          cp .github/templates/branch.html dist/branch.html
+          cp .github/templates/workflow.css dist/workflow.css
+          sed -i 's|\[REPO_NAME\]|'"$GITHUB_REPOSITORY"'|g' dist/branch.html
+          sed -i 's|\[BRANCH_NAME\]|'"$(echo $GITHUB_REF | sed 's|refs/heads/||')"'|g' dist/branch.html
+          sed -i 's|\[DATE\]|'"$(date)"'|g' dist/branch.html
 
       - name: Rsync
         uses: burnett01/rsync-deployments@4.1

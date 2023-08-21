@@ -1,0 +1,28 @@
+---
+title: Hello world
+author: ''
+publishDate: Mon Aug 21 2023
+displayDate: 21 Aug
+cover: https://i.ibb.co/swkd4P2/ccc.jpg
+description: Hello world
+tags:
+  - js
+  - git
+---
+
+## Hostile Browsers
+
+Trying to make websites look the same in every browser can be expensive and unrealistic. People often use outdated browsers, and some prefer those that place data savings above visual perfection (e.g., Opera Mini). Though we might consider certain browsers hostile towards both design and modern web technologies, we must acknowledge that they are often a user’s deliberate choice. In many ways, this hostility extends beyond browsers to the web itself—like JavaScript timing out while an Amtrak rider with less than 2% battery waves his or her phone in the air in search of one extra bar (or dot) of reception before the next tunnel hits.
+
+It’s the nature of the web as a continuum for support and capability to be in a constant state of flux. Embracing this variability means that we, as web designers, must prioritize content delivery to all browsers (usually via HTML and mobile-first structured CSS), and progressively enhance from there.
+
+```js
+const makeRequest = (verb, endPoint, data) => {
+  return fetch(endPoint, {
+    headers: headers(),
+    credentials: 'include',
+    method: verb,
+    body: JSON.stringify(data)
+  })
+}
+```
