@@ -1,16 +1,16 @@
 ---
 title: Why you should use a Makefile
-author: ''
+author: ""
 published: true
 publishDate: Fri Jun 02 2023
 displayDate: 2 Jun
-cover: 'https://i.ibb.co/swkd4P2/ccc.jpg'
-cover_image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Sarajevo_City_Panorama.JPG/2560px-Sarajevo_City_Panorama.JPG'
+cover: "https://i.ibb.co/swkd4P2/ccc.jpg"
+cover_image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Sarajevo_City_Panorama.JPG/2560px-Sarajevo_City_Panorama.JPG"
 description: Why you should use a Makefile
 tags:
   - make
 id: 1489401
-date: '2023-06-02T09:33:22Z'
+date: "2023-06-02T09:33:22Z"
 ---
 
 ## Why you should use a Makefile
@@ -21,13 +21,13 @@ If you have a project or application where you need to run a lot of commands, np
 - All commands are launched with the same command, **make**
 - All commands are self-documenting
 
-Lets look at an example
+Lets look at an example of a sample Makefile
 
 ```make
 tldr:
         @echo Available commands
         @echo ------------------
-        @for i in `grep '^[_[:alpha:]]*:' Makefile | awk -F ":" '{print $$1}'`; do echo make $$i; done
+        @grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'
 install:
         bundle install
         yarn install --check-files
@@ -39,9 +39,11 @@ generate:
         ./bin/init.js
 storybook:
         yarn storybook
+start:
+        npm run start
 ```
 
-Here we have a variety of commands that would be launched in different ways. With a Makefile, we can run them all with **make \<command\>**. We can also see all the commands available with **make tldr** or just **make**. This means any new commands added to the Makefile are automatically caught by the **make tldr** command.
+Here we have a variety of commands that are all launched in different ways. With a Makefile, we can run them each of them with an easier to remember `make \<command\>`. We can also see all the commands available with `make tldr` or just `make`. Any new commands added to the Makefile are automatically caught by the `make tldr` command.
 
 ## In action
 
@@ -57,4 +59,4 @@ make generate
 make storybook
 ```
 
-Runnin the **make** command picks up the first rule (**tldr**) and runs it. The rule greps the file for available rules and lists them out in the format in which they should be run.
+Running the **make** command picks up the first rule (**tldr**) and runs it. The rule greps the file for available rules and lists them out in the format in which they should be run.

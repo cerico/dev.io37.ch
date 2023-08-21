@@ -1,15 +1,15 @@
 ---
 title: Finding most recently updated projects with the 'recent' function
-author: ''
+author: ""
 published: true
 publishDate: Mon May 29 2023
 displayDate: 29 May
-cover: 'https://i.ibb.co/swkd4P2/ccc.jpg'
+cover: "https://i.ibb.co/swkd4P2/ccc.jpg"
 description: Finding most recently updated projects with the 'recent' function
 tags:
   - shell
 id: 1486665
-date: '2023-05-31T06:55:23Z'
+date: "2023-05-31T06:55:23Z"
 ---
 
 ## Finding most recently updated projects with the 'recent' function
@@ -34,77 +34,119 @@ Finding 6 most recent directories containing Makefile
 
 Lets look at the code
 
+#### `recent`
 
 ```bash
-recent () {
+recent () { # Find n most recent directories containing named file # ➜ recent 12 astro.config.mjs
   [[ $1 = [1-9]* ]] && num=$1 || num=10
   [[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'
   [[ $2 = [1-9]* ]] && num=$2
   [[ $2 = [.[:alpha:]]* ]] && f=$2
-  arrVar=()
+  local tmpfile=$(mktemp)
   echo Finding $(ColorCyan $num) most recent directories containing $(ColorGreen $f)
   echo ---
-  for i in $(find . -not -path './node_modules/*' -not -path '*/.[a-fh-z]*' -name $f -print 2>/dev/null | awk -F "/$f" '{print $1}')
-  do
-    b=$(date -r $(ls -ta $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")
-    arrVar+=($b" ${i#./}")
+  find . -maxdepth 5  -not -path '*node_modules*' -name $f -print 2>/dev/null | while read -r line; do
+    local mod_date=$(_most_recent_in $line)
+    local formatted_dir=$(_format_dir_path $line)
+    echo "$mod_date $formatted_dir" >> "$tmpfile"
   done
-  array=($arrVar)
-  printf '%s\n' "${(o)array[@]}" | sort -r | head -n $num
+  sort -r "$tmpfile" | head -n $num
   echo ""
-  echo $(ColorCyan ${#arrVar[@]}) total
+  echo "$(ColorCyan $(wc -l < "$tmpfile")) total"
+  rm "$tmpfile"
 }
 ```
 
 Lets break down whats happening here.
 
-* **`[[ $1 = [1-9]* ]] && num=$1 || num=10`**
-    If the first argument is a number, then set the variable `num` to this value. Otherwise, sets `num` to the default value of 10.
+- **`[[ $1 = [1-9]* ]] && num=$1 || num=10`**
 
-* **`[[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'`**
-    But if the first argument is a string then set the variable `f` to this value. Otherwise, sets `f` to the default value of '.git'.
+  If the first argument is a number, then set the variable **num** to this value. Otherwise, sets `num` to the default value of 10.
 
-* **`[[ $2 = [1-9]* ]] && num=$2`**
-    If the second argument is a number, then set the variable `num` to this value. Otherwise, `num` remains its previous value, set on the first line.
+- **`[[ $1 = [.[:alpha:]]* ]] && f=$1 || f='.git'`**
 
-* **`[[ $2 = [.[:alpha:]]* ]] && f=$2`**
-    And if the second argument is a string then set the variable `f` to this value. Otherwise, `f` remains its previous value, set on the second line.
+  But if the first argument is a string then set the variable `f` to this value. Otherwise, sets `f` to the default value of '.git'.
 
-* **`arrVar=()`**
-    Create an empty array called `arrVar`.
+- **`[[ $2 = [1-9]* ]] && num=$2`**
 
-* **`for i in $(find . -not -path './node_modules/*' -not -path '*/.[a-fh-z]*' -name $f -print 2>/dev/null | awk -F "/$f" '{print $1}')`**
-    Here we're searching for all file named $f (Makefile in this case), and then piping the output to awk to print only the directory and not directory/$f. We're also ignoring any directories named `node_modules` or hidden directories that don't start with a g (this is so we can include .git, .github in the search results)
+  If the second argument is a number, then set the variable `num` to this value. Otherwise, `num` remains its previous value, set on the first line.
 
-* **`b=$(date -r $(ls -ta $i/* | head -n 1 | sed s/://g) "+%Y-%m-%d")`**
-    Here we're finding the most recently updated file in each directory in the loop (**`ls -ta $i/* | head -n 1 | sed s/://g)`**) and printing the date of that file in the format `YYYY-MM-DD`.
+- **`[[ $2 = [.[:alpha:]]* ]] && f=$2`**
 
-* **`arrVar+=($b" ${i#./}")`**
-    We're adding the date (**`$b`**) and directory (**`${i#./}`**) to the array `arrVar`. Note we're stripping off the leading dotslash from the directory name.
+  And if the second argument is a string then set the variable `f` to this value. Otherwise, `f` remains its previous value, set on the second line.
 
-* **`printf '%s\n' "${(o)array[@]}" | sort -r | head -n $num`**
-    We're printing the array `arrVar` in reverse order, and limiting the output to the number of directories specified by the variable `num`.
+- **`local tmpfile=$(mktemp)`**
 
-* **`echo $(ColorCyan ${#arrVar[@]}) total`**
-    Finally, we're printing the total number of directories found.
+  Here a tmp file `tmpFile` is creatd, to store the results of the search.
 
-## ColorCyan and ColorGreen
+- **`find . -maxdepth 5 -not -path '_node_modules_' -name $f -print 2>/dev/null | while read -r line; do**
 
-These are functions to print the text in color.
+  Here we execute a find command, searching for the file or directory specified by the variable `f`. We're limiting the search to a maximum depth of 5 directories, and excluding any directories named `node_modules`. We're then piping the results of the find command to a while loop.
+
+- **`local mod_date=$(_most_recent_in $dir)`**
+
+  Inside the while loop, we're calling the function `_most_recent_in`, passing in the `line` from the loop. The function `_most_recent_in` returns the date of the most recently updated file or directory. We'll cover how this works in the next section.
+
+- **`local formatted_dir=$(_format_dir_path $dir)`**
+
+  Similarly, also inside the while loop, we're using the `_format_dir_path` function to format the `line` from the loop. We'll also cover this in the next section.
+
+- **`echo "$mod_date $formatted_dir" >> "$tmpfile"`**
+
+  Finally, inside the while loop, we're printing the date and directory path of each found `f` to the tmp file `tmpFile`
+
+- **`eort -r "$tmpfile" | head -n $num`**
+
+  And now back outside the loop, the temp file contains a list of all the found `f files and/or directories, which are then sorted in reverse order, and limited to a count of `num` specified at the start of the function
+
+#### `_most_recent_in`
 
 ```bash
+_most_recent_in () {
+	[[ ! -n $1 ]] && return
+	[[ -f $1 ]] && term=$(dirname "$1") || term=$1/..
+	if [ $(uname) = 'Darwin' ]
+	then
+		find $term -type f -exec stat -f "%Sm" -t "%Y-%m-%d" {} + | sort -r | head -n 1
+	else
+		find $term -type f -exec stat --format="%y" {} + | sort -r | head -n 1 | cut -d' ' -f1
+	fi
+}
+```
+
+Here we take in the line from the `recent` function outlined in the preceding section, and return the date of the most recently updated file, relative to the passed in line. Lets look in more detail
+
+- **`[[ -f $1 ]] && term=$(dirname "$1")  || term=$1/..`**
+
+  If the passed in line is a file, we set the variable `term` to the directory of the file. Otherwise, we set `term` to the parent directory of the passed in line. So if the passed in line is `reponame/README.md` it will search for the most recently updated file in `reponame`, and if the passed inline is `reponame/styles`, where styles is a directory, it will search in `reponame/styles/..`, which is `reponame`. This ensure consistency, ie in both cases it searches the directory conraing what could be either a file or a subdirectory, not within the subdirectory itself.
+
+  The rest of the function finds the stat of each file in the directory, sorts them in reverse order, and returns the first result. We're returning just the date here as we don't need the file or directory name. THe find syntax being slightly different for Mac and Linux, we check the uname first before running the approprate find command
+
+#### `_format_dir_path`
+
+```bash
+_format_dir_path () {
+	echo $1 | awk '{sub(/\/[^\/]*$/, ""); print}' | awk -F'\\./' '{if ($2 == "") print "."; else print $2}'
+}
+```
+
+This admittedly dense oneliner, strips the `./` from the beginning of the passed in path, and removes the final slash and everyhing after it. In the case of the file being in the current directory, eg `./Makefile`, there is nothing to display, so it substitutes a `.`. This last function only exists for tidier return values, ie `reponame` and not `./reponame/styles`
+
+#### `ColorCyan`
+
+````bash
 ColorCyan () {
   echo -ne '\e[36m'$1'\e[0m'
 }
-ColorGreen(){
-  echo -ne '\e[32m'$1'\e[0m'
-}
 ```
+
+A small helper function used by `recent` to color code output
 
 ## Extending the function
 
 We can now extend the function to find commonly searched for directories. Lets say we commonly search for the most recently updated astro applications. We can make an `astros` function that calls the `recent`
 
+#### `astros`
 ```bash
 astros () {
   [[ -n $1 ]] && recent $1 astro.config.mjs || recent 10 astro.config.mjs
@@ -124,3 +166,4 @@ Finding 4 most recent directories containing astro.config.mjs
 
 22 total
 ```
+````
