@@ -1,3 +1,12 @@
+## [0.4.4](https://github.com/cerico/dev.io37.ch/compare/v0.4.3...v0.4.4) (2023-08-21)
+
+
+### Bug Fixes
+
+* make images dir in gists for gh ([e5ba70c](https://github.com/cerico/dev.io37.ch/commit/e5ba70caca8755f77fd042baa8cd086a526fc5ff))
+
+
+
 ## [0.4.3](https://github.com/cerico/dev.io37.ch/compare/v0.4.2...v0.4.3) (2023-08-21)
 
 
