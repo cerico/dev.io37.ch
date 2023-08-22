@@ -1,3 +1,13 @@
+## [0.4.7](https://github.com/cerico/dev.io37.ch/compare/v0.4.6...v0.4.7) (2023-08-22)
+
+
+### Bug Fixes
+
+* add prettier settings for single quote ([c2b805d](https://github.com/cerico/dev.io37.ch/commit/c2b805d26d3e4f0422a4418a3cfa86cef409d87c))
+* update gist.js w cover_image and single quote ([32f2706](https://github.com/cerico/dev.io37.ch/commit/32f270680d8d0024c42ce6e57c456d707b821517))
+
+
+
 ## [0.4.6](https://github.com/cerico/dev.io37.ch/compare/v0.4.5...v0.4.6) (2023-08-21)
 
 
