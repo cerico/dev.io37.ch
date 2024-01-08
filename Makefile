@@ -19,4 +19,5 @@ repo:
 	gh repo create dev.io37.ch --public --source=. --remote=upstream
 index:
 	@grep -E 'title:|displayDate:' src/pages/gists/*.mdx | tac | awk -F': ' 'NR % 2 { title=$$2; next } { printf  "\033[0;36m%-6s \033[1;0m%s\n", title, $$2 }'
-
+%:
+	@$(MAKE) tldr
