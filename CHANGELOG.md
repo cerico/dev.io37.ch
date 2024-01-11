@@ -1,3 +1,17 @@
+# [0.5.0](https://github.com/cerico/dev.io37.ch/compare/v0.4.7...v0.5.0) (2024-01-11)
+
+
+### Bug Fixes
+
+* improve tldr rule ([f5c2ba0](https://github.com/cerico/dev.io37.ch/commit/f5c2ba05f218100fca7b0aac902a4d7d21059dac))
+
+
+### Features
+
+* run tldr in makefile if no rule ([8c32e2b](https://github.com/cerico/dev.io37.ch/commit/8c32e2b021fa4e8716f4fcc89cfc5978e5ad013d))
+
+
+
 ## [0.4.7](https://github.com/cerico/dev.io37.ch/compare/v0.4.6...v0.4.7) (2023-08-22)
 
 

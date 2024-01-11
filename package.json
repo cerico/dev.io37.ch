@@ -1,6 +1,6 @@
 {
   "name": "dev.io37.ch",
-  "version": "0.4.7",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
     "dev": "astro dev",
