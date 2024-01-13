@@ -1,0 +1,124 @@
+---
+title: Using a default Makefile
+author: ''
+publishDate: Thu Jan 11 2024
+displayDate: 11 Jan
+cover: 'https://finisterre.surge.sh/326.jpg'
+cover_image: 'https://finisterre.surge.sh/326.jpg'
+description: Using a default Makefile
+tags:
+  - make
+---
+
+## Setting up a default Makefile with wildcard rule
+
+When setting up a new project, I like to have a default Makefile that I can use to run common tasks. This is a simple Makefile that I use to run common tasks. A project might have different ways of launching parts of the application, and standardising and centralising these commands is a good way of keeping things simple and consistent. It is also self-documenting, as the `tldr` target lists all the available targets by default. Lets take a look at my default Makefile, and then explore easily targets via a shell function.
+
+```make
+tldr:
+        @echo Available commands
+        @echo ------------------
+        @grep '^[[:alpha:]][^:[:space:]]*:' Makefile | cut -d ':' -f 1 | sort -u | sed 's/^/make /'
+%:
+        @$(MAKE) tldr
+```
+
+As we can see, there are only two commands defined. The first is `tldr`, which lists all the available commands. The second is `%`, which is a wildcard that matches any command that is not defined. This is used to print the `tldr` command if an invalid command is entered.
+
+The tldr rule prints out all the commands in the Makefile. It does this by using `grep` to find all the lines that start with a letter, followed by a colon. It then uses `cut` to extract the first field, which is the command name. It then uses `sort` to sort the commands, and finally uses `sed` to add the `make` command to the start of each line. The output looks like this:
+
+```make
+☁  brew@kelso:projects/making  ➜ make tldr
+Available commands
+------------------
+make tldr
+```
+
+As there is only one rule defined, the wildcard rule is used to print the `tldr` command. Same thing happens if you enter an invalid command, instead of erroring out, it prints the `tldr` command.
+
+```make
+☁  brew@kelso:projects/making  ➜ make nonsense
+Available commands
+------------------
+make tldr
+```
+
+## Using the addmake function to create or add to the Makefile
+
+```bash
+addmake () {
+  if [[ ! -f Makefile ]];
+    then
+    cp ~/.zsh/templates/Makefile .
+  fi
+  if [[ ! $1 ]];
+    then
+    make tldr
+    return
+  fi
+  local target=$1 || read "target?Enter target: "
+  if [[ -e $target ]]
+    then
+    echo "Error: A file or directory named '$target' already exists." && return 1
+  fi
+  if grep -q "^$target:" Makefile
+    then
+    echo "Error: Target '$target' already exists in the Makefile." && return 1
+  fi
+  [[ -n $2 ]] && local recipe=$2 || read "recipe?Enter recipe: "
+  echo "$target:\n\t$recipe" >> Makefile
+  echo "\nSuccess: Target '$target' added to Makefile\n"
+  make tldr
+}
+```
+
+Lets run through the function. First, we check if a Makefile exists in the current directory. If it doesn't, we copy the default Makefile shown above, which is stored in `~/.zsh/templates/Makefile`.
+
+Next, we check if the first argument is empty. If it is, we run `make` to print the `tldr` command, listing available commands, and then exit.
+
+If we run the addmake function with one argument, it will create a new target with the argument and then prompt us for the corresponding recipe. If we run it with two arguments, it will create a new target with the first argument and the recipe with the second argument, before running the tldr target to list all the available commands, including the newly added target.
+
+It also checks to make sure the target doesn't have the same name as a file or directory at the top level of the project, which make doesn't seem to like. It also checks to make sure the target doesn't already exist in the Makefile.
+
+Lets take a look at the function in action.
+
+```bash
+☁  brew@kelso:projects/making ➜ addmake
+Available commands
+------------------
+make tldr
+```
+
+```make
+☁  brew@kelso:projects/making  ➜ addmake hello "@echo hello world"
+
+Success: Target 'hello' added to Makefile
+
+Available commands
+------------------
+make hello
+make tldr
+```
+
+```make
+☁  brew@kelso:projects/making  ➜ addmake goodbye
+Enter recipe: "@echo see you in the next episode"
+
+Success: Target 'goodbye' added to Makefile
+
+Available commands
+------------------
+make goodbye
+make hello
+make tldr
+```
+
+```make
+☁  brew@kels:projects/making ➜ addmake hello
+Error: Target 'hello' already exists in the Makefile.
+```
+
+```make
+☁  brew@kels:projects/making ➜ addmake images
+Error: A file or directory named 'images' already exists.
+```
