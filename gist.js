@@ -6,6 +6,7 @@ const displayDate = (new Date()).toLocaleDateString("en-GB",{day: 'numeric', mon
 const md = `---
 title: ${title}
 author: ''
+published: true
 publishDate: ${now}
 displayDate: ${displayDate}
 cover: 'https://i.ibb.co/swkd4P2/ccc.jpg'
