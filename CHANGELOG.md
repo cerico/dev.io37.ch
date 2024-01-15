@@ -1,3 +1,13 @@
+## [0.5.1](https://github.com/cerico/dev.io37.ch/compare/v0.5.0...v0.5.1) (2024-01-15)
+
+
+### Bug Fixes
+
+* add published true to gist.js ([0e4f7bd](https://github.com/cerico/dev.io37.ch/commit/0e4f7bd592c9b18790ac2a3afb4082b11485b25b))
+* add published true to jan 24 post ([3577759](https://github.com/cerico/dev.io37.ch/commit/3577759b125cefbc5accf1ef074f5cb3a6e4aa45))
+
+
+
 # [0.5.0](https://github.com/cerico/dev.io37.ch/compare/v0.4.7...v0.5.0) (2024-01-11)
 
 
