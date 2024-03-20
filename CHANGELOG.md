@@ -1,3 +1,12 @@
+# [0.6.0](https://github.com/cerico/dev.io37.ch/compare/v0.5.1...v0.6.0) (2024-03-20)
+
+
+### Features
+
+* add entry on pics function ([f4454d9](https://github.com/cerico/dev.io37.ch/commit/f4454d914de3f3a850dfb82536c0d0bb94cf25aa))
+
+
+
 ## [0.5.1](https://github.com/cerico/dev.io37.ch/compare/v0.5.0...v0.5.1) (2024-01-15)
 
 
