@@ -32,7 +32,7 @@
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "editor.suggestSelection": "first",
     "editor.tabCompletion": "onlySnippets",
-    "editor.wordBasedSuggestions": false
+    "editor.wordBasedSuggestions": "off"
   },
   "npm.keybindingsChangedWarningShown": true,
   "terminal.integrated.defaultProfile.osx": "zsh",
