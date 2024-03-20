@@ -1,0 +1,97 @@
+---
+title: Viewing and finding images more easily
+author: ''
+published: true
+publishDate: Wed Mar 20 2024
+displayDate: 20 Mar
+cover: 'https://i.ibb.co/swkd4P2/ccc.jpg'
+cover_image: 'https://i.ibb.co/swkd4P2/ccc.jpg'
+description: Viewing and finding images more easily
+tags:
+  - bash
+  - git
+---
+
+## Viewing and finding images more easily in filesystem
+
+If you have lots of images scattered across different locations in your filesystem, the spotlight search isn't necessarily the most user friendly way of finding the one you're looking for if you don't know the name of the file.
+
+The small script below finds all images relative to the point the function is run, creates a html page and populates it with each image it finds. It then spins up a webserver and opens the newly created page. Once the command is terminated the temporary html page is removed.
+
+
+```bash
+pics () {
+	local template="$HOME/.zsh/templates/html"
+  IFS=$'\n'
+	local list=(**/*.[jp]*g)
+  local page="000.html"
+	trap '_delete_temp_page $page' INT
+	sed '$d' $template | sed '$d' > $page
+	for i in "${list[@]}"
+	do
+		echo "<img src=\"./$i\">" >> $page
+	done
+	tail -n 2 $template >> $page
+	_webserver $page
+}
+```
+
+Firstly we create a blank html page in the templates directory, shown later in this post. Secondly we set the Internal Field Separator to a newline character instead of the default space. We need to do this because it allows for filenames that contain blank spaces, something commonplace on a Mac.
+
+Next we create a list of all images files relative to the current location, and create a page variable of `000.html`, though this could be renamed to something more abstract as it will be destroyed. Or a check could be added in here to return if a file with that name already exists, but I've not included that here.
+
+Next we set a `trap` to listen for the INT signal, generally CTRL-C or whatever escape character is pressed, this will then run the `_delete_temp_page` function detailed below, passing it the newly created `000.html` page.
+
+The `sed` command removes the last two lines from the template file (the closing body and html tags), and then we iterate through the list of found images creating an image tag in the html for each entry. Finally we use `tail` to add the last two lines from the template file back in. We then spin up a webserver with the `_webserver` function
+
+### _delete_temp_page
+
+```bash
+_delete_temp_page () {
+	echo "Stopping web server..."
+	echo "Removing $1"
+	[ -f $1 ] && rm $1
+	trap - INT
+}
+```
+
+Here we remove the file that is passed to the function, in this case 000.html, and disable the trap. Otherwise ctrl-c will continue to invoke the function whenever pressed
+
+### _webserver
+
+```bash
+_webserver () {
+	browser-sync start --server --startPath "$page" --port 6375 --browser "safari"
+}
+```
+
+Simple one liner to open the page in Safari
+
+### the template html
+
+Here we create a template html page and story it in the templates dir inside zsh
+
+```html
+ cat ~/.zsh/templates/html
+<html>
+<head>
+
+<style>
+ body {
+    margin: 0 auto;
+    text-align: center;
+    padding: 16px;
+  }
+
+  img {
+    padding: 8px;
+    max-width: calc(100vw - 32px);
+  }
+</style>
+</head>
+<body>
+</body>
+</html>
+```
+
+Nothing exciting here, as we saw above the script copies this file, uses sed to remove the last two lines before adding the image entries, and then using tail to add the last two lines in. Due to its generic nature we can reuse this `html` file in other contexts too.
